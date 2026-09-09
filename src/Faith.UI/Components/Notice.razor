@@ -1,0 +1,8 @@
+@if (!string.IsNullOrEmpty(Text))
+{
+  <div class="notice @(Success ? "success" : "warning")" role="status">@Text</div>
+}
+@code {
+  [Parameter] public string Text { get; set; } = "";
+  [Parameter] public bool Success { get; set; }
+}

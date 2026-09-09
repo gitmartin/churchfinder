@@ -1,0 +1,16 @@
+@page "/signup"
+@inherits PageBase
+<PageTitle>Create account</PageTitle>
+<div class="narrow-page"><PageHeading Section="Get started" Title="Make room for something new." Description="Create your account, then confirm your email to sign in." />
+<section class="panel"><form @onsubmit="Submit" @onsubmit:preventDefault>
+  <label>Your name<input autocomplete="name" required maxlength="100" @bind="name" /></label>
+  <label>Email address<input type="email" autocomplete="email" required maxlength="254" @bind="email" /></label>
+  <label>Password<input type="password" autocomplete="new-password" minlength="12" maxlength="128" required @bind="password" /><small>Use at least 12 characters.</small></label>
+  <label class="check-label"><input type="checkbox" required @bind="terms" /><span>I agree to the <a href="terms">terms</a> and <a href="privacy">privacy policy</a>.</span></label>
+  <Notice Text="@Message" Success="Success" /><button class="primary full-width" disabled="@Busy">@(Busy ? "Creating…" : "Create account") ↗</button>
+</form><p class="auth-switch">Already have an account? <a href="signin">Sign in</a></p></section></div>
+@code {
+  private string name = "", email = "", password = "";
+  private bool terms;
+  private Task Submit() => Run(() => Api.PostAsync("auth/register", new RegistrationRequest(email, password, name, terms)));
+}

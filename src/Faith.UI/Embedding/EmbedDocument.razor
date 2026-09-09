@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Faith.UI · Component @ComponentKey.ToUpperInvariant()</title>
+  <link rel="stylesheet" href="/_content/Faith.UI/embed.css" />
+  <script src="/_content/Faith.UI/embed.js" defer></script>
+</head>
+<body>
+  <main id="faith-content"
+    data-connection-id="@ConnectionId"
+    data-resize-token="@ResizeToken"
+    data-available-width="@Width"
+    data-initial-height="@InitialHeight"
+    data-min-height="@MinHeight"
+    data-max-height="@MaxHeight"
+    data-response-url="/embed/api/lorem">
+    <LoremControl ComponentKey="@ComponentKey" />
+    <noscript>This control needs JavaScript to add text.</noscript>
+  </main>
+</body>
+</html>
+
+@code {
+  [Parameter] public string ComponentKey { get; set; } = "a";
+  [Parameter] public string ConnectionId { get; set; } = "";
+  [Parameter] public string ResizeToken { get; set; } = "";
+  [Parameter] public int Width { get; set; } = 640;
+  [Parameter] public int InitialHeight { get; set; } = 280;
+  [Parameter] public int MinHeight { get; set; } = 120;
+  [Parameter] public int MaxHeight { get; set; } = 10000;
+}

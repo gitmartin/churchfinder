@@ -1,0 +1,15 @@
+@page "/dashboard"
+@inherits PageBase
+<PageTitle>Your dashboard</PageTitle>
+<PageHeading Section="Your account" Title="@(session?.User is { } user ? $"Hello, {user.DisplayName}." : "Your dashboard")" Description="A place for your activity and everything that comes next." />
+<Notice Text="@Message" />
+@if (session?.User is { } current)
+{
+  <div class="dashboard-grid"><section class="panel feature-panel"><span class="pill">CONNECTED</span><h2>Everything starts<br />with you.</h2><p>Keep your details current and choose how you sign in.</p><a class="primary inline-button" href="profile">Manage your profile ↗</a></section>
+  <section class="panel"><p class="eyebrow">Account details</p><h2>@current.DisplayName</h2><p class="muted">@current.Email</p><div class="detail-row"><span>Email</span><span class="status-dot">Verified</span></div><div class="detail-row"><span>Account</span><span>Active</span></div></section></div>
+}
+else if (session is not null) { <section class="panel empty-state"><h2>Sign in to make yourself at home.</h2><a class="primary inline-button" href="signin">Sign in ↗</a></section> }
+@code {
+  private SessionInfo? session;
+  protected override async Task OnAfterRenderAsync(bool firstRender) { if (firstRender) await Load(async () => session = await Api.GetAsync<SessionInfo>("session")); }
+}

@@ -1,0 +1,21 @@
+services:
+  web:
+    build: .
+    ports: ["8443:8443"]
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      AllowedHosts: ${PUBLIC_HOST:?Set PUBLIC_HOST in .env}
+      Embed__AllowedOrigins__0: ${EMBED_HOST_ORIGIN:?Set EMBED_HOST_ORIGIN in .env}
+      Kestrel__Certificates__Default__Path: /https/site.pfx
+      Kestrel__Certificates__Default__Password: ${TLS_PASSWORD}
+    volumes:
+      - faith-ui-data:/data
+      - type: bind
+        source: ${TLS_DIRECTORY:?Set TLS_DIRECTORY in .env}
+        target: /https
+        read_only: true
+        bind:
+          create_host_path: false
+    restart: unless-stopped
+volumes:
+  faith-ui-data:

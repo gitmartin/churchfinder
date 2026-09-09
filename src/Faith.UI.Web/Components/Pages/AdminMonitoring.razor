@@ -1,0 +1,19 @@
+@page "/admin/errors"
+@page "/admin/activity"
+@page "/admin/bspn"
+@attribute [Authorize(Policy = "Admin")]
+@inject CurrentAccount Account
+@inject NavigationManager Navigation
+<PageTitle>Monitoring tools</PageTitle>
+@if (Navigation.Uri.EndsWith("/errors"))
+{
+  <Branches.Core.UI.ErrorManagement.ErrorManagementDashboard AuthorizeViewAsync="Account.IsAdminAsync" AuthorizeManagementAsync="Account.IsAdminAsync" />
+}
+else if (Navigation.Uri.EndsWith("/activity"))
+{
+  <Branches.Core.UI.ActivityMonitoring.ActivityMonitoringDashboard AuthorizeViewAsync="Account.IsAdminAsync" />
+}
+else
+{
+  <Branches.Core.UI.BSPN.Dashboard EnableManagementActions="true" AuthorizeViewAsync="Account.IsAdminAsync" AuthorizeManagementAsync="Account.IsAdminAsync" />
+}

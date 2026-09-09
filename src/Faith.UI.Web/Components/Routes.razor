@@ -1,0 +1,6 @@
+@inject NavigationManager Navigation
+<Router AppAssembly="typeof(Program).Assembly" AdditionalAssemblies="new[] { typeof(Faith.UI.Pages.Home).Assembly }">
+  <Found Context="routeData"><AuthorizeRouteView @key="Navigation.Uri" RouteData="routeData" DefaultLayout="typeof(AppShell)"><NotAuthorized><section class="panel empty-state"><h1>Access required</h1><p>Sign in with an authorized account to view this page.</p><a href="signin" class="primary inline-button">Sign in</a></section></NotAuthorized></AuthorizeRouteView><FocusOnNavigate RouteData="routeData" Selector="h1" /></Found>
+  <NotFound><LayoutView Layout="typeof(AppShell)"><PageHeading Title="Page not found" /></LayoutView></NotFound>
+</Router>
+

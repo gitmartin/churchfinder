@@ -1,0 +1,7 @@
+<div class="page-heading"><div><p class="eyebrow">@Section</p><h1>@Title</h1>@if (!string.IsNullOrEmpty(Description)) { <p class="muted">@Description</p> }</div>@ChildContent</div>
+@code {
+  [Parameter] public string Section { get; set; } = "Workspace";
+  [Parameter] public string Title { get; set; } = "";
+  [Parameter] public string? Description { get; set; }
+  [Parameter] public RenderFragment? ChildContent { get; set; }
+}

@@ -1,0 +1,18 @@
+@page "/admin/users"
+@attribute [Authorize(Policy = "Admin")]
+@inherits PageBase
+<PageTitle>User management</PageTitle>
+<PageHeading Section="Administration" Title="People make the workspace." Description="Manage access and invite someone new." />
+<section class="panel"><form class="toolbar" @onsubmit="Invite" @onsubmit:preventDefault><input type="email" required maxlength="254" placeholder="Email address to invite" aria-label="Invite email address" @bind="inviteEmail" /><button class="primary" disabled="@Busy">＋ Send invitation</button></form><Notice Text="@Message" Success="Success" />
+<div class="table-wrap"><table><thead><tr><th>Person</th><th>Role</th><th>Status</th><th>Manage access</th></tr></thead><tbody>@foreach (var user in users) { <tr><td>@user.DisplayName<small>@user.Email</small></td><td>@(user.IsAdmin ? "Administrator" : "Member")</td><td><span class="pill">@(user.Enabled ? "Enabled" : "Disabled")</span></td><td><div class="table-actions"><button class="text-button" disabled="@Busy" @onclick="() => Update(user, !user.Enabled, user.IsAdmin)">@(user.Enabled ? "Disable" : "Enable")</button><button class="text-button" disabled="@Busy" @onclick="() => Update(user, user.Enabled, !user.IsAdmin)">@(user.IsAdmin ? "Make member" : "Make admin")</button></div></td></tr> }</tbody></table></div><div class="toolbar" style="margin-top:24px;margin-bottom:0"><button class="secondary" disabled="@(page == 0)" @onclick="Previous">Previous</button><span class="muted">Page @(page + 1)</span><button class="secondary" disabled="@(users.Length < 50)" @onclick="Next">Next</button></div></section>
+@code {
+  private UserProfile[] users = [];
+  private string inviteEmail = "";
+  private int page;
+  protected override async Task OnAfterRenderAsync(bool firstRender) { if (firstRender) await Load(Refresh); }
+  private async Task Refresh() => users = await Api.GetAsync<UserProfile[]>("admin/users?page=" + page);
+  private Task Invite() => Run(() => Api.PostAsync("admin/invite", new InvitationRequest(inviteEmail)));
+  private async Task Update(UserProfile user, bool enabled, bool admin) { await Run(() => Api.PostAsync("admin/users/" + user.Id, new UserUpdate(enabled, admin))); await Load(Refresh); }
+  private async Task Previous() { page--; await Load(Refresh); }
+  private async Task Next() { page++; await Load(Refresh); }
+}

@@ -1,0 +1,85 @@
+@inherits LayoutComponentBase
+@implements IDisposable
+@inject IClientApi Api
+@inject IJSRuntime JS
+@inject NavigationManager Navigation
+
+<div class="app-shell">
+  @if (menuOpen) { <button class="nav-scrim" aria-label="Close navigation" @onclick="() => menuOpen = false"></button> }
+  <aside class="sidebar @(menuOpen ? "open" : "")" aria-label="Main navigation">
+    <a class="brand" href=""><span class="brand-mark" aria-hidden="true">b<span>·</span></span><span>@(session?.Settings.SiteName ?? "Faith UI")<small>YOUR WORKSPACE</small></span></a>
+    <div class="nav-label">Explore</div>
+    <nav @onclick="() => menuOpen = false">
+      <NavLink href="" Match="NavLinkMatch.All"><span class="nav-icon">⌂</span>Home</NavLink>
+      <NavLink href="about"><span class="nav-icon">◉</span>About</NavLink>
+      <NavLink href="contact"><span class="nav-icon">✉</span>Contact us</NavLink>
+      <div class="nav-label">Your account</div>
+      @if (session?.User is { } user)
+      {
+        <NavLink href="dashboard"><span class="nav-icon">▦</span>Dashboard</NavLink>
+        <NavLink href="profile"><span class="nav-icon">◎</span>Profile & security</NavLink>
+        @if (user.IsAdmin)
+        {
+          <div class="nav-label">Administration</div>
+          <NavLink href="admin" Match="NavLinkMatch.All"><span class="nav-icon">▥</span>Overview</NavLink>
+          <NavLink href="admin/users"><span class="nav-icon">♧</span>Users</NavLink>
+          <NavLink href="admin/communications"><span class="nav-icon">✉</span>Communications</NavLink>
+          <NavLink href="admin/settings"><span class="nav-icon">⚙</span>Settings</NavLink>
+          <div class="nav-label">Monitoring</div>
+          <NavLink href="admin/errors"><span class="nav-icon">◇</span>Errors</NavLink>
+          <NavLink href="admin/activity"><span class="nav-icon">↗</span>Activity</NavLink>
+          <NavLink href="admin/bspn"><span class="nav-icon">⬡</span>BSPN</NavLink>
+        }
+      }
+      else
+      {
+        <NavLink href="signin"><span class="nav-icon">↪</span>Sign in</NavLink>
+        @if (session?.Settings.AllowRegistration != false) { <NavLink href="signup"><span class="nav-icon">＋</span>Create account</NavLink> }
+      }
+    </nav>
+    <div class="sidebar-bottom">
+      <button class="mode-button" @onclick="ToggleMode"><span>◐</span> @modeLabel <span class="muted">↻</span></button>
+      <div class="legal-links"><a href="privacy">Privacy</a><span>·</span><a href="terms">Terms</a></div>
+      <span class="host-label">Web · Powered by Branches</span>
+    </div>
+  </aside>
+  <div class="main-column">
+    <header class="topbar">
+      <div class="topbar-start"><button class="mobile-menu icon-button" aria-label="Open navigation" @onclick="() => menuOpen = true">☰</button><span class="breadcrumb">Workspace <span>/</span> @CurrentPage</span></div>
+      <div class="topbar-account">
+        @if (session?.User is { } signedIn) { <a class="avatar" href="profile" title="Open profile">@signedIn.DisplayName[..1].ToUpperInvariant()</a><span class="account-name">@signedIn.DisplayName</span><button class="text-button" @onclick="SignOut">Sign out</button> }
+        else { <a class="text-button" href="signin">Sign in <span aria-hidden="true">↗</span></a> }
+      </div>
+    </header>
+    <main id="main" class="main-content"><ErrorBoundary><ChildContent>@Body</ChildContent><ErrorContent><div class="notice warning">This page couldn't be loaded. <a href="">Return home</a>.</div></ErrorContent></ErrorBoundary></main>
+    <footer class="page-footer"><span>© @DateTime.UtcNow.Year @(session?.Settings.SiteName ?? "Faith UI")</span><span>Room for what comes next.</span></footer>
+  </div>
+</div>
+@code {
+  private SessionInfo? session;
+  private bool menuOpen;
+  private string modeLabel = "System appearance";
+  private bool disposed;
+  protected override void OnInitialized() => Navigation.LocationChanged += LocationChanged;
+  private void LocationChanged(object? sender, LocationChangedEventArgs args) => _ = InvokeAsync(RefreshSession);
+  private async Task RefreshSession()
+  {
+    try
+    {
+      session = await Api.GetAsync<SessionInfo>("session");
+      await JS.InvokeVoidAsync("starter.theme", session.Settings.Theme);
+      if (!disposed) StateHasChanged();
+    }
+    catch { }
+  }
+  private string CurrentPage => Navigation.ToBaseRelativePath(Navigation.Uri).Split('?', '#')[0] is { Length: > 0 } path ? System.Globalization.CultureInfo.InvariantCulture.TextInfo.ToTitleCase(path.Split('/').Last().Replace('-', ' ')) : "Home";
+  protected override async Task OnAfterRenderAsync(bool firstRender)
+  {
+    if (!firstRender) return;
+    try { await RefreshSession(); modeLabel = await JS.InvokeAsync<string>("starter.mode", false); StateHasChanged(); }
+    catch { }
+  }
+  private async Task ToggleMode() { modeLabel = await JS.InvokeAsync<string>("starter.mode", true); }
+  private async Task SignOut() { await Api.SignOutAsync(); Navigation.NavigateTo("signin", forceLoad: true); session = null; }
+  public void Dispose() { disposed = true; Navigation.LocationChanged -= LocationChanged; }
+}

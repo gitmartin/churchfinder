@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Component A · HTML demo</title>
+  <link rel="stylesheet" href="/examples/demo.css">
+  <script src="/examples/demo.js" defer></script>
+</head>
+<body data-component="a">
+  <header class="page-header">
+    <a class="brand" href="/">faith<span>.ui</span></a>
+    <span class="header-label">COMPONENT A / HTML DEMO</span>
+  </header>
+  <main>
+    <div class="heading">
+      <div>
+        <p class="eyebrow">YOUR WEBSITE, OUR CONTROL</p>
+        <h1>A small embed.<br>A little room to grow.</h1>
+        <p class="description">The panel below loads from Faith.UI. Add some text, then clear it. This page adjusts around it.</p>
+      </div>
+      <span class="origin-label">Standalone HTML page<br><strong>Component A</strong></span>
+    </div>
+    <section aria-label="Embedded control demonstration">
+      <div class="demo-toolbar">
+        <div class="width-options" role="group" aria-label="Container width">
+          <button type="button" aria-pressed="true" data-width="wide">Wide</button>
+          <button type="button" aria-pressed="false" data-width="compact">Compact</button>
+        </div>
+        <span class="dimensions" id="dimensions">Measuring…</span>
+      </div>
+      <div class="widget-shell" id="widget-shell">
+        <div id="faith-widget"></div>
+      </div>
+      <div class="below-widget">
+        <p id="connection-status" role="status">Loading the control…</p>
+        <span>This is part of your page. It moves with the embed.</span>
+      </div>
+    </section>
+    <details class="integration">
+      <summary>The embed call</summary>
+      <pre><code id="embed-code">Loading embed code…</code></pre>
+    </details>
+  </main>
+  <footer>Faith.UI <span>Local proof of concept · HTML + JavaScript</span></footer>
+</body>
+</html>

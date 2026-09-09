@@ -1,0 +1,64 @@
+@page "/signin"
+@inherits PageBase
+<PageTitle>Sign in</PageTitle>
+<div class="auth-grid"><div class="auth-intro"><p class="eyebrow">Welcome back</p><h1>Your space.<br />Ready when<br /><em>you are.</em></h1><p>One account. A familiar experience on every device.</p><div class="auth-decoration" aria-hidden="true"><div></div><div></div><div></div></div></div>
+<section class="panel auth-panel"><span class="pill">YOUR ACCOUNT</span><h2>Sign in</h2><p class="muted">Pick up where you left off.</p><form @onsubmit="PasswordSignIn" @onsubmit:preventDefault>
+  <label>Email address<input type="email" required autocomplete="username webauthn" maxlength="254" @bind="email" placeholder="you@example.com" /></label>
+  <label>Password<input type="password" required autocomplete="current-password" maxlength="128" @bind="password" /></label>
+  <a class="small-link" href="forgot-password">Forgot your password?</a>
+  <Notice Text="@Message" Success="Success" /><button class="primary full-width" disabled="@(Busy || startupFailed)">@(Busy ? "Please wait…" : "Sign in") <span>↗</span></button>
+</form>
+@if (startupFailed) { <button class="secondary full-width" disabled="@Busy" @onclick="RestartSession">Start a new session</button> }
+<div class="divider"><span>or use your device</span></div><button class="secondary full-width" disabled="@(Busy || startupFailed)" @onclick="PasskeySignIn">◎ Sign in with a passkey</button><p class="fine-print">Use your fingerprint, face, or device screen lock.</p><p class="auth-switch">New here? <a href="signup">Create an account</a></p></section></div>
+@code {
+  private string email = "", password = "";
+  private bool startupFailed;
+  protected override async Task OnAfterRenderAsync(bool firstRender)
+  {
+    if (!firstRender) return;
+    Busy = true;
+    try
+    {
+      var session = await Api.GetAsync<SessionInfo>("session");
+      if (session.User is not null) Navigation.NavigateTo("dashboard");
+      else if (session.RequiresRestart)
+      {
+        startupFailed = true;
+        Message = "Your previous session has expired. Choose Start a new session before signing in again.";
+      }
+    }
+    catch
+    {
+      startupFailed = true;
+      Message = "Unable to start your session. Check your connection, or choose Start a new session to sign out of this client and restart.";
+    }
+    finally { Busy = false; StateHasChanged(); }
+  }
+  private async Task RestartSession()
+  {
+    if (Busy) return;
+    Busy = true;
+    Success = false;
+    Message = "Signing out of this client and starting a new session…";
+    try
+    {
+      await Api.SignOutAsync();
+      var session = await Api.GetAsync<SessionInfo>("session");
+      startupFailed = false;
+      Message = "A new session is ready. You can now sign in.";
+      if (session.User is not null) Navigation.NavigateTo("dashboard");
+    }
+    catch { Message = "The session could not be restarted. Check your connection and try Start a new session again."; }
+    finally { Busy = false; }
+  }
+  private Task PasswordSignIn() => Finish(() => Api.PostAsync("auth/signin", new SignInRequest(email, password)));
+  private Task PasskeySignIn() => Finish(() => Api.PasskeySignInAsync(email));
+  private async Task Finish(Func<Task<ApiReply>> action)
+  {
+    await Run(action);
+    if (Success)
+    {
+      Navigation.NavigateTo("dashboard", forceLoad: true);
+    }
+  }
+}

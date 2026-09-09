@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <EnableDefaultRazorComponentItems>false</EnableDefaultRazorComponentItems>
+    <EnableDefaultContentItems>false</EnableDefaultContentItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs;Endpoints/EmbedEndpoints.cs" />
+    <Content Include="appsettings.json;appsettings.Development.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="wwwroot/robots.txt" CopyToPublishDirectory="PreserveNewest" />
+    <ProjectReference Include="../Faith.UI.Logic/Faith.UI.Logic.csproj" />
+    <ProjectReference Include="../Faith.UI/Faith.UI.csproj" />
+  </ItemGroup>
+</Project>

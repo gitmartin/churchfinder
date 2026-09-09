@@ -1,0 +1,18 @@
+@page "/admin"
+@attribute [Authorize(Policy = "Admin")]
+@inherits PageBase
+<PageTitle>Admin overview</PageTitle>
+<PageHeading Section="Administration" Title="A clear view of your workspace." Description="People, messages, and the tools that keep things running."><span class="pill">OVERVIEW</span></PageHeading>
+<Notice Text="@Message" />
+@if (summary is not null)
+{
+  <div class="stats-grid">
+    <section class="panel stat-card"><p>Total users</p><div class="stat-value">@summary.Users</div><div class="stat-caption">Registered accounts</div></section>
+    <section class="panel stat-card"><p>Enabled users</p><div class="stat-value">@summary.ActiveUsers</div><div class="stat-caption">Ready to sign in</div></section>
+    <section class="panel stat-card"><p>Email queue</p><div class="stat-value">@summary.PendingEmails</div><div class="stat-caption">Awaiting delivery</div></section>
+    <section class="panel stat-card"><p>Contact messages</p><div class="stat-value">@summary.ContactMessages</div><div class="stat-caption">Messages from your community</div></section>
+  </div>
+}
+<div class="dashboard-grid"><section class="panel feature-panel"><span class="pill">MAKE IT YOURS</span><h2>A good foundation.<br />Your next big idea.</h2><p>Set your workspace name, choose a theme, and make this space your own.</p><a class="primary inline-button" href="admin/settings">Open settings ↗</a></section><section class="panel"><p class="eyebrow">Workspace shortcuts</p><a class="detail-row" href="admin/users"><span>Manage people & invitations</span><span>↗</span></a><a class="detail-row" href="admin/communications"><span>Review emails & messages</span><span>↗</span></a><a class="detail-row" href="admin/activity"><span>Explore user activity</span><span>↗</span></a><a class="detail-row" href="profile"><span>Secure your account</span><span>↗</span></a></section></div>
+<div class="section-heading"><h2>Connected tools</h2><span class="muted">Branches Core</span></div><div class="tools-grid"><a href="admin/errors" class="panel tool-card"><span class="tool-symbol">◇</span><h3>Error management ↗</h3><p>Review failures, recurring issues, and affected pages.</p></a><a href="admin/activity" class="panel tool-card"><span class="tool-symbol">↗</span><h3>Activity monitoring ↗</h3><p>Understand sessions, connected time, and page usage.</p></a><a href="admin/bspn" class="panel tool-card"><span class="tool-symbol">⬡</span><h3>Site protection ↗</h3><p>Review request signals and protection decisions.</p></a></div>
+@code { private DashboardSummary? summary; protected override async Task OnAfterRenderAsync(bool firstRender) { if (firstRender) await Load(async () => summary = await Api.GetAsync<DashboardSummary>("admin/summary")); } }

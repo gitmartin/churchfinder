@@ -1,0 +1,21 @@
+@page "/admin/communications"
+@attribute [Authorize(Policy = "Admin")]
+@inherits PageBase
+<PageTitle>Communications</PageTitle>
+<PageHeading Section="Administration" Title="Keep the conversation going." Description="Account emails, reusable templates, and messages from your community."><button class="secondary" @onclick="() => Load(Refresh)">Refresh ↻</button></PageHeading>
+<Notice Text="@Message" Success="Success" />
+<div class="stack"><section class="panel"><h2>Email delivery</h2><p class="muted">The latest 100 messages. Development deliveries appear in the local outbox.</p><div class="table-wrap"><table><thead><tr><th>Recipient / subject</th><th>Status</th><th>Created (UTC)</th><th></th></tr></thead><tbody>@foreach (var email in emails) { <tr><td>@email.Recipient<small>@email.Subject</small></td><td><span class="pill">@email.Status</span><small>@email.LastError</small></td><td>@email.CreatedUtc.ToString("MMM d, HH:mm")</td><td>@if (email.Status == "Failed") { <button class="text-button" @onclick="() => Retry(email.Id)">Retry</button> }</td></tr> }</tbody></table>@if (emails.Length == 0) { <p class="muted" style="padding-top:20px">Your email queue is clear.</p> }</div></section>
+<section class="panel"><h2>Account templates</h2><p class="muted">Available fields: <code>{{name}}</code>, <code>{{site}}</code>, <code>{{url}}</code>. Field values are HTML encoded.</p><label>Template<select value="@selected" @onchange="Choose">@foreach (var template in templates) { <option value="@template.Key">@template.Key</option> }</select></label><form @onsubmit="SaveTemplate" @onsubmit:preventDefault><label>Subject<input required maxlength="200" @bind="subject" /></label><label>HTML body<textarea class="template-editor" rows="10" required maxlength="30000" @bind="body"></textarea></label><button class="primary" disabled="@Busy">Save template</button></form></section>
+<section class="panel"><h2>Contact inbox</h2>@foreach (var contact in contacts) { <div class="detail-row"><div><strong>@contact.Name</strong><p class="muted">@contact.Email · @contact.CreatedUtc.ToString("MMM d, yyyy")</p><p style="white-space:pre-wrap;overflow-wrap:anywhere">@contact.Message</p></div></div> }@if (contacts.Length == 0) { <p class="muted">No messages yet.</p> }</section></div>
+@code {
+  private MessageSummary[] emails = [];
+  private EmailTemplateInfo[] templates = [];
+  private ContactSummary[] contacts = [];
+  private string selected = "", subject = "", body = "";
+  protected override async Task OnAfterRenderAsync(bool firstRender) { if (firstRender) await Load(Refresh); }
+  private async Task Refresh() { emails = await Api.GetAsync<MessageSummary[]>("admin/emails"); templates = await Api.GetAsync<EmailTemplateInfo[]>("admin/templates"); contacts = await Api.GetAsync<ContactSummary[]>("admin/contacts"); if (selected == "") Select(templates.FirstOrDefault()); }
+  private void Select(EmailTemplateInfo? template) { if (template is null) return; selected = template.Key; subject = template.Subject; body = template.Body; }
+  private void Choose(ChangeEventArgs args) => Select(templates.FirstOrDefault(x => x.Key == args.Value?.ToString()));
+  private Task SaveTemplate() => Run(() => Api.PostAsync("admin/templates", new EmailTemplateInfo(selected, subject, body)));
+  private async Task Retry(Guid id) { await Run(() => Api.PostAsync("admin/emails/" + id + "/retry", new { })); await Load(Refresh); }
+}

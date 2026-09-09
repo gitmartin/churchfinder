@@ -1,0 +1,17 @@
+@page "/admin/settings"
+@attribute [Authorize(Policy = "Admin")]
+@inherits PageBase
+@inject IJSRuntime JS
+<PageTitle>Workspace settings</PageTitle>
+<PageHeading Section="Administration" Title="A space that feels like yours." Description="Set the essentials and choose an appearance for all your clients." />
+<Notice Text="@Message" Success="Success" />
+<section class="panel"><h2>Appearance</h2><p class="muted">Five themes, each with light and dark appearances. Visitors can choose their preferred mode.</p><div class="theme-grid">@foreach (string theme in Themes.All) { <button type="button" class="theme-option @(selectedTheme == theme ? "selected" : "")" aria-pressed="@(selectedTheme == theme)" @onclick="() => SelectTheme(theme)"><span class="theme-swatch" style="--swatch:@Color(theme)"></span>@theme</button> }</div>
+<hr /><h2>Workspace details</h2><form @onsubmit="Save" @onsubmit:preventDefault><div class="split-grid"><label>Workspace name<input required maxlength="80" @bind="siteName" /></label><label>Contact email<input type="email" required maxlength="254" @bind="contactEmail" /></label></div><label class="check-label"><input type="checkbox" @bind="registration" /><span>Allow new account registrations</span></label><button class="primary" disabled="@Busy">Save settings ↗</button></form></section>
+@code {
+  private string selectedTheme = "Forest", siteName = "", contactEmail = "";
+  private bool registration;
+  protected override async Task OnAfterRenderAsync(bool firstRender) { if (firstRender) await Load(async () => { var value = await Api.GetAsync<SiteSettings>("settings"); selectedTheme = value.Theme; siteName = value.SiteName; contactEmail = value.ContactEmail; registration = value.AllowRegistration; }); }
+  private Task SelectTheme(string theme) { selectedTheme = theme; return JS.InvokeVoidAsync("starter.theme", theme).AsTask(); }
+  private Task Save() => Run(() => Api.PostAsync("admin/settings", new SiteSettings(siteName, selectedTheme, registration, contactEmail)));
+  private static string Color(string value) => value switch { "Ocean" => "#205f7e", "Violet" => "#655089", "Ember" => "#a15232", "Slate" => "#485d76", _ => "#285e48" };
+}

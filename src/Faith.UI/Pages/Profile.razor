@@ -1,0 +1,22 @@
+@page "/profile"
+@inherits PageBase
+<PageTitle>Profile & security</PageTitle>
+<PageHeading Section="Your account" Title="Profile & security" Description="Your details. Your devices. Your choice." />
+<Notice Text="@Message" Success="Success" />
+@if (session?.User is { } user)
+{
+  <div class="split-grid"><section class="panel"><h2>Personal details</h2><form @onsubmit="Save" @onsubmit:preventDefault><label>Display name<input required maxlength="100" autocomplete="name" @bind="name" /></label><label>Email address<input value="@user.Email" disabled /><small>Your verified sign-in address.</small></label><button class="primary" disabled="@Busy">Save changes</button></form></section>
+  <section class="panel"><h2>Sign-in & security</h2><p class="muted">Passkeys use your device's fingerprint, face recognition, or screen lock. Biometric data stays on your device.</p><button class="secondary" disabled="@Busy" @onclick="AddPasskey">◎ Add a passkey</button><div class="passkey-list">@foreach (var passkey in passkeys) { <div class="detail-row"><span>◎ @passkey.Name</span><button class="text-button" disabled="@Busy" @onclick="() => Remove(passkey)">Remove</button></div> }</div><hr /><h3>Password</h3><p class="muted">We'll send a secure link to your verified email.</p><button class="text-button" disabled="@Busy" @onclick="Reset">Send password reset →</button></section></div>
+}
+else if (session is not null) { <a class="primary inline-button" href="signin">Sign in to view your profile</a> }
+@code {
+  private SessionInfo? session;
+  private PasskeyInfo[] passkeys = [];
+  private string name = "";
+  protected override async Task OnAfterRenderAsync(bool firstRender) { if (firstRender) await Load(Refresh); }
+  private async Task Refresh() { session = await Api.GetAsync<SessionInfo>("session"); if (session.User is { } user) { name = user.DisplayName; passkeys = await Api.GetAsync<PasskeyInfo[]>("user/passkeys"); } }
+  private Task Save() => Run(() => Api.PostAsync("user/profile", new ProfileUpdate(name)));
+  private Task Reset() => Run(() => Api.PostAsync("auth/forgot-password", new ResetRequest(session!.User!.Email)));
+  private async Task AddPasskey() { await Run(Api.AddPasskeyAsync); if (Success) await Refresh(); }
+  private async Task Remove(PasskeyInfo passkey) { await Run(() => Api.PostAsync("user/passkeys/remove", passkey)); if (Success) await Refresh(); }
+}

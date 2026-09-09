@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Faith.UI.Logic/Faith.UI.Logic.csproj" />
+    <Project Path="src/Faith.UI/Faith.UI.csproj" />
+    <Project Path="src/Faith.UI.Service/Faith.UI.Service.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Faith.UI.Tests/Faith.UI.Tests.csproj" />
+  </Folder>
+</Solution>

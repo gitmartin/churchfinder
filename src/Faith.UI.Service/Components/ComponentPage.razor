@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Component @ComponentKey.ToUpperInvariant() · Faith.UI</title>
+  <link rel="stylesheet" href="/catalog.css" />
+  <script src="/_content/Faith.UI/faith-ui.js" defer></script>
+  <script src="/catalog.js" defer></script>
+</head>
+<body data-component="@ComponentKey">
+  <header><a class="brand" href="/">faith<span>.ui</span></a><a href="/" class="back-link">All components</a></header>
+  <main>
+    <p class="eyebrow">COMPONENT @ComponentKey.ToUpperInvariant() / SUMMARY</p>
+    <h1>A button.<br>A growing response.</h1>
+    <p class="lead">Click “Add Lorem ipsum” to load a paragraph from local SQLite. The control adds the text and automatically adjusts its iframe height. “Clear text” makes it shrink again.</p>
+    <div class="page-actions">
+      <a class="button" href="@($"/examples/{ComponentKey}.html")">Open HTML demo <span aria-hidden="true">↗</span></a>
+      <a class="text-link" href="@($"/embed/{ComponentKey}")">Open control directly</a>
+    </div>
+    <section class="code-section">
+      <div class="section-heading"><h2>Add it to your page</h2><button class="copy-button" type="button" data-copy>Copy code</button></div>
+      <pre><code id="embed-code">Loading embed code…</code></pre>
+      <p class="copy-status" role="status" data-copy-status></p>
+    </section>
+    <div class="endpoint-line"><span>Component endpoint</span><a href="@($"/embed/{ComponentKey}")">/embed/@ComponentKey</a></div>
+  </main>
+  <footer>Faith.UI.Service <span>Component @ComponentKey.ToUpperInvariant() · Proof of concept</span></footer>
+</body>
+</html>
+
+@code {
+  [Microsoft.AspNetCore.Components.Parameter] public string ComponentKey { get; set; } = "a";
+}

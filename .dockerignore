@@ -1,0 +1,11 @@
+**/bin
+**/obj
+artifacts
+.tooling
+.git
+.vs
+**/App_Data
+**/appsettings.Local.json
+**/*.pfx
+**/*.keystore
+.env

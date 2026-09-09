@@ -1,0 +1,28 @@
+@page "/forgot-password"
+@page "/reset-password"
+@page "/confirm-email"
+@page "/accept-invite"
+@inherits PageBase
+<PageTitle>@Title</PageTitle>
+<div class="narrow-page"><PageHeading Section="Your account" Title="@Title" Description="@Description" /><section class="panel"><form @onsubmit="Submit" @onsubmit:preventDefault>
+  @if (Mode == "forgot-password") { <label>Email address<input type="email" required autocomplete="email" maxlength="254" @bind="email" /></label> }
+  @if (Mode == "accept-invite") { <label>Your name<input required autocomplete="name" maxlength="100" @bind="name" /></label> }
+  @if (Mode is "reset-password" or "accept-invite") { <label>New password<input type="password" required autocomplete="new-password" minlength="12" maxlength="128" @bind="password" /><small>Use at least 12 characters.</small></label> }
+  @if (Mode == "accept-invite") { <label class="check-label"><input type="checkbox" required @bind="terms" /><span>I agree to the <a href="terms">terms</a> and <a href="privacy">privacy policy</a>.</span></label> }
+  <Notice Text="@Message" Success="Success" /><button class="primary full-width" disabled="@(Busy || (Success && Mode != "forgot-password"))">@(Busy ? "Please wait…" : Title)</button>
+</form><p class="auth-switch"><a href="signin">Back to sign in</a></p></section></div>
+@code {
+  [SupplyParameterFromQuery(Name = "token")] public string? Token { get; set; }
+  private string email = "", name = "", password = "";
+  private bool terms;
+  private string Mode => Navigation.ToBaseRelativePath(Navigation.Uri).Split('?')[0];
+  private string Title => Mode switch { "reset-password" => "Set a new password", "confirm-email" => "Confirm your email", "accept-invite" => "Accept your invitation", _ => "Reset your password" };
+  private string Description => Mode switch { "confirm-email" => "Confirm below to finish creating your account.", "accept-invite" => "Set up your profile to join the workspace.", _ => "We'll help you get back into your account." };
+  private Task Submit() => Run(() => Mode switch
+  {
+    "reset-password" => Api.PostAsync("auth/reset-password", new PasswordResetRequest(Token ?? "", password)),
+    "confirm-email" => Api.PostAsync("auth/confirm-email", new CompleteRegistrationRequest(Token ?? "")),
+    "accept-invite" => Api.PostAsync("auth/accept-invite", new AcceptInvitationRequest(Token ?? "", name, password, terms)),
+    _ => Api.PostAsync("auth/forgot-password", new ResetRequest(email))
+  });
+}

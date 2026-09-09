@@ -1,0 +1,19 @@
+@page "/privacy"
+@page "/terms"
+@inject NavigationManager Navigation
+<PageTitle>@Title</PageTitle>
+<PageHeading Section="The essentials" Title="@Title" />
+<article class="panel policy-copy"><p class="pill">SAMPLE POLICY · CUSTOMIZE BEFORE LAUNCH</p>
+@if (IsPrivacy)
+{
+  <h2>Your information, handled with care.</h2><p>This starter stores account details, hashed passwords, public passkey credentials, contact messages, and operational activity. Fingerprints and facial images are never collected by this application.</p>
+  <h3>How information is used</h3><p>Account information supports sign-in and profile management. Contact messages support replies. Limited activity and request records help the team operate, secure, and improve the service.</p>
+  <h3>Storage and retention</h3><p>Essential session cookies keep you signed in. Appearance preferences are saved on your device. Operational history, delivered email records, and contact messages are retained for 90 days by this starter. Account records remain until removed by the operator.</p>
+  <h3>Contact and choices</h3><p>Use the <a href="contact">contact page</a> for questions or account-data requests. The operator must add its identity, jurisdiction, processors, rights process, and actual retention practices before publication.</p>
+}
+else
+{
+  <h2>A shared understanding.</h2><p>This is a starting point for service terms. The operator must replace it with terms appropriate to the product before accepting public users.</p><h3>Your account</h3><p>Keep your account details accurate and protect your sign-in methods. Do not share reset links or access credentials.</p><h3>Acceptable use</h3><p>Use the service lawfully. Do not interfere with other users, attempt unauthorized access, or submit harmful content.</p><h3>Availability and support</h3><p>Features may change as the service develops. Contact the operator through the <a href="contact">contact page</a> for support. Add the applicable commercial terms, liability provisions, termination process, and governing law before launch.</p>
+}
+</article>
+@code { private bool IsPrivacy => Navigation.Uri.Split('?')[0].EndsWith("/privacy"); private string Title => IsPrivacy ? "Privacy policy" : "Terms of service"; }

@@ -1,0 +1,14 @@
+@page "/contact"
+@inherits PageBase
+<PageTitle>Contact us</PageTitle>
+<PageHeading Section="Get in touch" Title="Let's start a conversation." Description="Send a question, share an idea, or let us know how we can help." />
+<div class="split-grid"><section class="panel"><h2>Send us a message</h2><form @onsubmit="Submit" @onsubmit:preventDefault>
+  <label>Your name<input autocomplete="name" required maxlength="100" @bind="name" /></label>
+  <label>Email address<input type="email" autocomplete="email" required maxlength="254" @bind="email" /></label>
+  <label>Message<textarea rows="6" required maxlength="5000" @bind="message"></textarea></label>
+  <Notice Text="@Message" Success="Success" /><button class="primary" disabled="@Busy">@(Busy ? "Sending…" : "Send message") <span>↗</span></button>
+</form></section><aside class="quiet-panel"><span class="large-symbol">✉</span><h2>A little connection<br />goes a long way.</h2><p>Your message goes directly to our team. Please leave out passwords and sensitive account information.</p><a href="privacy">How we handle your information ↗</a></aside></div>
+@code {
+  private string name = "", email = "", message = "";
+  private Task Submit() => Run(() => Api.PostAsync("contact", new ContactRequest(name, email, message)));
+}
