@@ -380,6 +380,7 @@
     <div class="byline">
       <span>Researched 9 Sep 2026</span>
       <span>Public web sources only — no Places API key yet</span>
+      <span>Coordinates via Nominatim, © OpenStreetMap contributors</span>
       <span>Unknowns left null, never invented</span>
     </div>
   </header>
@@ -434,16 +435,16 @@
 
       <div class="cov-row">
         <div class="cov-field">postal_code</div>
-        <div class="cov-count">1 / 10</div>
-        <div class="bar none"><span style="width:10%"></span></div>
-        <div class="cov-verdict"><span class="chip free">Free from Places</span>Rarely on the open web; trivially returned by a geocoder.</div>
+        <div class="cov-count">9 / 10</div>
+        <div class="bar"><span style="width:90%"></span></div>
+        <div class="cov-verdict"><span class="chip free">Free from geocoder</span>Returned as a by-product of geocoding. One conflicted with the church's own site.</div>
       </div>
 
       <div class="cov-row">
         <div class="cov-field">latitude / longitude</div>
-        <div class="cov-count">0 / 10</div>
-        <div class="bar none"><span style="width:0%"></span></div>
-        <div class="cov-verdict"><span class="chip free">Free from Places</span>Deliberately null — guessing coordinates would hide that they're missing.</div>
+        <div class="cov-count">9 / 10</div>
+        <div class="bar"><span style="width:90%"></span></div>
+        <div class="cov-verdict"><span class="chip free">Free from geocoder</span>All nine matched OSM <em>place_of_worship</em> buildings, not street interpolation.</div>
       </div>
 
       <div class="cov-row">
@@ -517,6 +518,7 @@
             <th>Church</th>
             <th>Denomination</th>
             <th>Address</th>
+            <th>Latitude, longitude</th>
             <th>Founded</th>
             <th>Building</th>
             <th>Capacity</th>
@@ -528,70 +530,70 @@
         <tbody>
           <tr>
             <td class="nm">St. Michael's Cathedral Basilica</td>
-            <td>Catholic</td><td>65 Bond St</td>
+            <td>Catholic</td><td>65 Bond St</td><td class="num">43.654988, -79.377091</td>
             <td class="num">1848</td><td class="num">1848</td>
             <td><span class="null">null</span></td><td><span class="null">null</span></td>
             <td><span class="null">null</span></td><td><span class="null">null</span></td>
           </tr>
           <tr>
             <td class="nm">Cathedral Church of St. James</td>
-            <td>Anglican</td><td>106 King St E</td>
+            <td>Anglican</td><td>106 King St E</td><td class="num">43.650510, -79.374007</td>
             <td class="num">1797</td><td class="num">1853</td>
             <td><span class="null">null</span></td><td><span class="null">null</span></td>
             <td><span class="null">null</span></td><td><span class="null">null</span></td>
           </tr>
           <tr>
             <td class="nm">Metropolitan United Church</td>
-            <td>United Church</td><td>56 Queen St E</td>
+            <td>United Church</td><td>56 Queen St E</td><td class="num">43.653900, -79.376699</td>
             <td class="num">1818</td><td><span class="null">null</span></td>
             <td class="num caveat">1000 *</td><td><span class="null">null</span></td>
             <td><span class="null">null</span></td><td><span class="null">null</span></td>
           </tr>
           <tr>
             <td class="nm">Yorkminster Park Baptist Church</td>
-            <td>Baptist</td><td>1585 Yonge St</td>
+            <td>Baptist</td><td>1585 Yonge St</td><td class="num">43.690638, -79.394078</td>
             <td><span class="null">null</span></td><td class="num">1928</td>
             <td><span class="null">null</span></td><td class="caveat">"largest in CA"</td>
             <td><span class="null">null</span></td><td><span class="null">null</span></td>
           </tr>
           <tr>
             <td class="nm">The Peoples Church</td>
-            <td>Evangelical</td><td><span class="null">null</span></td>
+            <td>Evangelical</td><td><span class="null">null</span></td><td><span class="null">null</span></td>
             <td class="num">1928</td><td><span class="null">null</span></td>
             <td><span class="null">null</span></td><td class="caveat">1,500–2,000 (1928)</td>
             <td><span class="null">null</span></td><td><span class="null">null</span></td>
           </tr>
           <tr>
             <td class="nm">Knox Presbyterian Church</td>
-            <td>Presbyterian</td><td>630 Spadina Ave</td>
+            <td>Presbyterian</td><td>630 Spadina Ave</td><td class="num">43.662477, -79.402556</td>
             <td class="num">1820</td><td class="num">1909</td>
             <td class="num">1200</td><td><span class="null">null</span></td>
             <td><span class="null">null</span></td><td><span class="null">null</span></td>
           </tr>
           <tr>
             <td class="nm">Little Trinity Anglican Church</td>
-            <td>Anglican</td><td>425 King St E</td>
+            <td>Anglican</td><td>425 King St E</td><td class="num">43.653152, -79.361838</td>
             <td class="num">1843</td><td class="num">1844</td>
             <td class="num">600</td><td><span class="null">null</span></td>
             <td><span class="null">null</span></td><td><span class="null">null</span></td>
           </tr>
           <tr>
             <td class="nm">St. George Greek Orthodox Church</td>
-            <td>Greek Orthodox</td><td>115 Bond St</td>
+            <td>Greek Orthodox</td><td>115 Bond St</td><td class="num">43.657335, -79.378377</td>
             <td class="num">1909</td><td class="num caveat">1897 †</td>
             <td><span class="null">null</span></td><td><span class="null">null</span></td>
             <td class="yes">YouTube</td><td><span class="null">null</span></td>
           </tr>
           <tr>
             <td class="nm">Grace Toronto Church</td>
-            <td>Presbyterian (PCA)</td><td>383 Jarvis St</td>
+            <td>Presbyterian (PCA)</td><td>383 Jarvis St</td><td class="num">43.662286, -79.376221</td>
             <td class="num caveat">1992 / 2004</td><td class="num">1878</td>
             <td><span class="null">null</span></td><td class="caveat">25 (2006)</td>
             <td class="yes">Spotify + YT</td><td class="yes">9:15, 11:15</td>
           </tr>
           <tr>
             <td class="nm">First Evangelical Lutheran Church</td>
-            <td>Lutheran</td><td>116 Bond St</td>
+            <td>Lutheran</td><td>116 Bond St</td><td class="num">43.656981, -79.378924</td>
             <td class="num">1851</td><td><span class="null">null</span></td>
             <td><span class="null">null</span></td><td><span class="null">null</span></td>
             <td><span class="null">null</span></td><td><span class="null">null</span></td>
@@ -626,6 +628,11 @@
       <div class="rec">
         <h3><code>denomination</code> needs a normalization table, not a text column</h3>
         <p>The sample already breaks flat matching: Metropolitan United was founded Methodist Episcopal and became United at the 1925 church union; Grace Toronto is PCA, which is Presbyterian but not the Presbyterian Church in Canada. Users will filter on "Presbyterian" and expect both. Store the specific body, map it to a filterable family.</p>
+      </div>
+
+      <div class="rec">
+        <h3>Geocode with OSM even though the map is Google</h3>
+        <p>All nine addresses geocoded cleanly against Nominatim — eight on the first try, and every one resolved to an OSM <code>place_of_worship</code> building rather than an interpolated street address, so the pins land on the church and not the middle of the road. Postal codes came back as a by-product. The reason to prefer this over Google's geocoder isn't the API key: <strong>Google Maps Platform terms restrict persisting geocoded coordinates in your own database</strong>, which is exactly what a seed dataset does. OSM data is ODbL — store it indefinitely, credit "© OpenStreetMap contributors". Rendering OSM-derived coordinates on a Google map is fine, so this costs nothing.</p>
       </div>
 
       <div class="rec">

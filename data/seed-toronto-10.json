@@ -1,5 +1,5 @@
 {
-  "$comment": "Sample seed for data-sourcing evaluation. Hand-researched 2026-09-09 from public web sources, NOT from Google Places (no API key yet). Per the ticket's rule, unknown fields are null and are never invented. latitude/longitude are deliberately null throughout: geocoding is the collector's job and Places returns coordinates for free, so guessing them here would only hide that they're missing.",
+  "$comment": "Sample seed for data-sourcing evaluation. Hand-researched 2026-09-09 from public web sources, NOT from Google Places (no API key yet). Per the ticket's rule, unknown fields are null and are never invented. Coordinates and postal codes were geocoded from the street addresses via Nominatim/OSM on 2026-09-09 — see the 'geocoding' block below for provider, licence and the reason Google's geocoder was not used.",
   "source": "manual-research",
   "collected_at": "2026-09-09",
   "churches": [
@@ -10,10 +10,10 @@
       "address_line1": "65 Bond Street",
       "city": "Toronto",
       "region": "ON",
-      "postal_code": null,
+      "postal_code": "M5B 1X5",
       "country_code": "CA",
-      "latitude": null,
-      "longitude": null,
+      "latitude": 43.654988,
+      "longitude": -79.377091,
       "timezone": "America/Toronto",
       "website_url": "https://stmichaelscathedral.archtoronto.org/",
       "phone": null,
@@ -26,7 +26,8 @@
       "seating_capacity": null,
       "sermon_feed_url": null,
       "service_times": [],
-      "notes": "Heritage designation 1973. $125M+ restoration begun 2011. No attendance figure published."
+      "notes": "Heritage designation 1973. $125M+ restoration begun 2011. No attendance figure published.",
+      "geocode_status": "ok — OSM place_of_worship match (building, not street interpolation)"
     },
     {
       "source_id": "tor-st-james-cathedral",
@@ -35,10 +36,10 @@
       "address_line1": "106 King Street East",
       "city": "Toronto",
       "region": "ON",
-      "postal_code": null,
+      "postal_code": "M5C 1G9",
       "country_code": "CA",
-      "latitude": null,
-      "longitude": null,
+      "latitude": 43.65051,
+      "longitude": -79.374007,
       "timezone": "America/Toronto",
       "website_url": "https://stjamescathedral.ca/",
       "phone": null,
@@ -51,7 +52,8 @@
       "seating_capacity": null,
       "sermon_feed_url": null,
       "service_times": [],
-      "notes": "Oldest congregation in Toronto. Episcopal seat of the Bishop of Toronto since 1936. 56-year gap between congregation and building year."
+      "notes": "Oldest congregation in Toronto. Episcopal seat of the Bishop of Toronto since 1936. 56-year gap between congregation and building year.",
+      "geocode_status": "ok — OSM place_of_worship match (building, not street interpolation)"
     },
     {
       "source_id": "tor-metropolitan-united",
@@ -60,10 +62,10 @@
       "address_line1": "56 Queen Street East",
       "city": "Toronto",
       "region": "ON",
-      "postal_code": null,
+      "postal_code": "M5C 2Z3",
       "country_code": "CA",
-      "latitude": null,
-      "longitude": null,
+      "latitude": 43.6539,
+      "longitude": -79.376699,
       "timezone": "America/Toronto",
       "website_url": "https://www.metunited.org/",
       "phone": null,
@@ -77,7 +79,8 @@
       "capacity_basis": "1833 Newgate Methodist Episcopal predecessor building accommodated 1,000 — HISTORICAL, not the current building",
       "sermon_feed_url": null,
       "service_times": [],
-      "notes": "Denomination label needs normalizing: founded Methodist Episcopal, became United Church at 1925 church union."
+      "notes": "Denomination label needs normalizing: founded Methodist Episcopal, became United Church at 1925 church union.",
+      "geocode_status": "ok — OSM place_of_worship match (building, not street interpolation)"
     },
     {
       "source_id": "tor-yorkminster-park-baptist",
@@ -86,10 +89,10 @@
       "address_line1": "1585 Yonge Street",
       "city": "Toronto",
       "region": "ON",
-      "postal_code": null,
+      "postal_code": "M4T 1Z9",
       "country_code": "CA",
-      "latitude": null,
-      "longitude": null,
+      "latitude": 43.690638,
+      "longitude": -79.394078,
       "timezone": "America/Toronto",
       "website_url": "https://www.yorkminsterpark.com/",
       "phone": null,
@@ -102,7 +105,8 @@
       "seating_capacity": null,
       "sermon_feed_url": null,
       "service_times": [],
-      "notes": "Described as the largest Baptist church in Canada — a qualitative size signal with no number attached. 1961 merger makes 'founded' genuinely ambiguous."
+      "notes": "Described as the largest Baptist church in Canada — a qualitative size signal with no number attached. 1961 merger makes 'founded' genuinely ambiguous.",
+      "geocode_status": "ok — OSM place_of_worship match (building, not street interpolation)"
     },
     {
       "source_id": "tor-peoples-church",
@@ -128,7 +132,8 @@
       "attendance_historical": "1,500-2,000 Sunday evening, c. 1928",
       "sermon_feed_url": null,
       "service_times": [],
-      "notes": "ADDRESS UNVERIFIED — congregation has relocated at least once since its original Bloor Street East site; current address not confirmed in research. Left null rather than guessed. The only attendance number found anywhere in this dataset is ~100 years stale."
+      "notes": "ADDRESS UNVERIFIED — congregation has relocated at least once since its original Bloor Street East site; current address not confirmed in research. Left null rather than guessed. The only attendance number found anywhere in this dataset is ~100 years stale.",
+      "geocode_status": "skipped — no address to geocode"
     },
     {
       "source_id": "tor-knox-presbyterian",
@@ -137,10 +142,10 @@
       "address_line1": "630 Spadina Avenue",
       "city": "Toronto",
       "region": "ON",
-      "postal_code": null,
+      "postal_code": "M5S 2H6",
       "country_code": "CA",
-      "latitude": null,
-      "longitude": null,
+      "latitude": 43.662477,
+      "longitude": -79.402556,
       "timezone": "America/Toronto",
       "website_url": null,
       "phone": null,
@@ -154,7 +159,8 @@
       "capacity_basis": "1909 building designed for 1,200 seats",
       "sermon_feed_url": null,
       "service_times": [],
-      "notes": "City of Toronto heritage status 2006. 89-year gap between congregation and current building."
+      "notes": "City of Toronto heritage status 2006. 89-year gap between congregation and current building.",
+      "geocode_status": "ok — OSM place_of_worship match (building, not street interpolation)"
     },
     {
       "source_id": "tor-little-trinity-anglican",
@@ -163,10 +169,10 @@
       "address_line1": "425 King Street East",
       "city": "Toronto",
       "region": "ON",
-      "postal_code": null,
+      "postal_code": "M5A 1L3",
       "country_code": "CA",
-      "latitude": null,
-      "longitude": null,
+      "latitude": 43.653152,
+      "longitude": -79.361838,
       "timezone": "America/Toronto",
       "website_url": null,
       "phone": null,
@@ -180,7 +186,8 @@
       "capacity_basis": "enlarged to 600 seats in 1889",
       "sermon_feed_url": null,
       "service_times": [],
-      "notes": "Oldest surviving church building in Toronto per Ontario Heritage Trust plaque. Partly destroyed by fire 1961, rebuilt 1962."
+      "notes": "Oldest surviving church building in Toronto per Ontario Heritage Trust plaque. Partly destroyed by fire 1961, rebuilt 1962.",
+      "geocode_status": "ok — OSM place_of_worship match (building, not street interpolation)"
     },
     {
       "source_id": "tor-st-george-greek-orthodox",
@@ -189,10 +196,10 @@
       "address_line1": "115 Bond Street",
       "city": "Toronto",
       "region": "ON",
-      "postal_code": null,
+      "postal_code": "M5B 1W1",
       "country_code": "CA",
-      "latitude": null,
-      "longitude": null,
+      "latitude": 43.657335,
+      "longitude": -79.378377,
       "timezone": "America/Toronto",
       "website_url": null,
       "phone": null,
@@ -205,7 +212,8 @@
       "seating_capacity": null,
       "sermon_feed_url": "https://www.youtube.com/channel/UC8DlqWc_towh0UF2h08zmoA",
       "service_times": [],
-      "notes": "Building predates the congregation by 12 years — breaks any assumption that building_year >= founded_year. Oldest Greek Orthodox community in Canada; only Greek Orthodox church in Toronto until 1961. Services partly in Greek — language filter matters here."
+      "notes": "Building predates the congregation by 12 years — breaks any assumption that building_year >= founded_year. Oldest Greek Orthodox community in Canada; only Greek Orthodox church in Toronto until 1961. Services partly in Greek — language filter matters here.",
+      "geocode_status": "ok — OSM place_of_worship match (building, not street interpolation)"
     },
     {
       "source_id": "tor-grace-toronto-pca",
@@ -216,8 +224,8 @@
       "region": "ON",
       "postal_code": "M5B 2C7",
       "country_code": "CA",
-      "latitude": null,
-      "longitude": null,
+      "latitude": 43.662286,
+      "longitude": -79.376221,
       "timezone": "America/Toronto",
       "website_url": "https://www.gracetoronto.ca/",
       "phone": null,
@@ -232,10 +240,24 @@
       "sermon_feed_url": "https://open.spotify.com/show/1pFlaudkiOKixanrJoeOkR",
       "sermon_youtube_url": "https://www.youtube.com/gracetorontochurch",
       "service_times": [
-        { "day_of_week": 6, "start_time": "09:15", "language": "en", "label": "Sunday worship", "notes": "livestreamed" },
-        { "day_of_week": 6, "start_time": "11:15", "language": "en", "label": "Sunday worship", "notes": null }
+        {
+          "day_of_week": 6,
+          "start_time": "09:15",
+          "language": "en",
+          "label": "Sunday worship",
+          "notes": "livestreamed"
+        },
+        {
+          "day_of_week": 6,
+          "start_time": "11:15",
+          "language": "en",
+          "label": "Sunday worship",
+          "notes": null
+        }
       ],
-      "notes": "The one record with real service times and a real sermon feed — both scraped straight off the church's own homepage in a single fetch. Also the hardest age call in the set: 1992, 2004, or 1878 depending on what 'age' means."
+      "notes": "The one record with real service times and a real sermon feed — both scraped straight off the church's own homepage in a single fetch. Also the hardest age call in the set: 1992, 2004, or 1878 depending on what 'age' means. Postal code conflict: church website says M5B 2C7, OSM says M5B 1M1 — website treated as authoritative.",
+      "geocode_status": "ok — OSM place_of_worship match (building, not street interpolation)",
+      "postal_code_osm": "M5B 1M1"
     },
     {
       "source_id": "tor-first-evangelical-lutheran",
@@ -244,10 +266,10 @@
       "address_line1": "116 Bond Street",
       "city": "Toronto",
       "region": "ON",
-      "postal_code": null,
+      "postal_code": "M5B 1X2",
       "country_code": "CA",
-      "latitude": null,
-      "longitude": null,
+      "latitude": 43.656981,
+      "longitude": -79.378924,
       "timezone": "America/Toronto",
       "website_url": null,
       "phone": null,
@@ -260,7 +282,15 @@
       "seating_capacity": null,
       "sermon_feed_url": null,
       "service_times": [],
-      "notes": "Sits directly across Bond Street from St. Michael's Cathedral and St. George Greek Orthodox — three churches, three denominations, one block. Good stress test for map pin clustering."
+      "notes": "Sits directly across Bond Street from St. Michael's Cathedral and St. George Greek Orthodox — three churches, three denominations, one block. Good stress test for map pin clustering.",
+      "geocode_status": "ok — OSM place_of_worship match (building, not street interpolation)"
     }
-  ]
+  ],
+  "geocoding": {
+    "provider": "Nominatim / OpenStreetMap",
+    "geocoded_at": "2026-09-09",
+    "licence": "ODbL — coordinates may be stored indefinitely with attribution",
+    "attribution_required": "© OpenStreetMap contributors",
+    "note": "Deliberately NOT geocoded with Google. Google Maps Platform terms restrict persisting geocoded lat/lng in your own database; OSM data can be stored freely. Displaying OSM-derived coordinates on a Google map is fine."
+  }
 }
