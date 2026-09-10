@@ -8,7 +8,7 @@
 
 Data collection and converting addresses into coordinates are owned by the data collection teammate. This ticket owns the storage contract, read API, and frontend integration.
 
-**Current milestone:** The Python API, database migrations, collector import, and backend tests are implemented. React and Google Maps integration remain a separate follow-up. See [the README](README.md) for setup and the data handoff contract.
+**Current milestone:** The Python API and React map/list frontend are implemented, including search, filters, church details, and an embeddable iframe loader. The Toronto research seed can be imported with coordinates using `--format research`. See [the README](README.md) for startup, embedding, and the data handoff contract. The browser smoke check below remains a manual verification step.
 
 ## 1. Create the basic schema
 

@@ -1,11 +1,24 @@
 import json
+from pathlib import Path
 
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
-from churchfinder.importer import import_batch, main
+from churchfinder.importer import import_batch, main, read_batch
 from churchfinder.models import Church, ServiceTime
 from churchfinder.schemas import ChurchImportBatch
+
+
+def test_toronto_research_import_keeps_coordinates_and_services(engine):
+    path = Path(__file__).resolve().parents[1] / "data" / "seed-toronto-10.json"
+    batch = read_batch(path.read_text(encoding="utf-8"), "research")
+    assert import_batch(engine, batch)["created"] == 10
+    with Session(engine) as session:
+        assert len(list(session.scalars(select(Church).where(Church.latitude.is_not(None))))) == 9
+        church = session.scalar(select(Church).where(Church.source_id == "tor-grace-toronto-pca"))
+        assert church.latitude == 43.662286
+        assert church.source == "manual-research"
+        assert len(church.service_times) == 2
 
 
 def test_reimport_preserves_ids_without_creating_duplicates(engine, batch):

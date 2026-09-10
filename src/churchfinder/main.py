@@ -8,6 +8,7 @@ from churchfinder.api import router
 from churchfinder.config import Settings
 from churchfinder.database import build_engine
 from churchfinder.schemas import HealthResponse
+from churchfinder.web import mount_frontend
 
 
 def create_app(settings: Settings | None = None, engine: Engine | None = None) -> FastAPI:
@@ -36,6 +37,7 @@ def create_app(settings: Settings | None = None, engine: Engine | None = None) -
         allow_headers=["Accept", "Content-Type"],
     )
     app.include_router(router)
+    mount_frontend(app, settings)
 
     @app.get("/health", response_model=HealthResponse, tags=["Health"])
     def health() -> HealthResponse:

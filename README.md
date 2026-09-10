@@ -1,19 +1,51 @@
 # ChurchFinder Canada
 
-Python/FastAPI backend for a church directory and map. Stores church locations and weekly
-service times, imports collector data, and provides search, filters, pagination, and map-bounds
-queries. The React frontend and Google Maps integration are the next milestone.
+React frontend and Python/FastAPI backend for a church directory and Google Map. Search by name,
+city, denomination, or service language, select a church in the list or map, and view its service
+times and contact details. The same frontend can be embedded in another website.
 
-No Google API key is required to run this backend. The collector supplies coordinates.
+The collector supplies coordinates. Google Maps uses the browser key in `GOOGLE_MAPS_API`;
+the read API itself works without that key.
+
+## Run the frontend and backend together
+
+Requires Python 3.12+, [uv](https://docs.astral.sh/uv/), and Node.js 22.12+.
+Copy `.env.example` to `.env` if you have not already configured it, then set `GOOGLE_MAPS_API`.
+Keep an existing `.env` with your key; do not overwrite it.
+
+```sh
+bash scripts/run-local.sh
+```
+
+The script installs dependencies, builds the frontend, migrates a separate local SQLite database
+(`churchfinder-map.db`), imports the ten Toronto research records, and starts both servers:
+
+- [React frontend](http://127.0.0.1:5173/) — live reload while editing the UI.
+- [Backend and compiled frontend](http://127.0.0.1:8000/) — the standalone production build.
+- [API documentation](http://127.0.0.1:8000/docs).
+- [Embedding demo and copyable snippet](http://127.0.0.1:8000/embed-demo.html).
+
+Nine records have coordinates; the tenth stays in the list with “Map location unavailable”.
+Click a card or pin for details. “Search this area” applies the current map bounds. Map pins and
+cards use the same page of results, and the UI shows when there are more matches.
+
+The script uses SQLite even if `.env` points to PostgreSQL. To use your own database instead,
+export `DATABASE_URL` before starting it. Ctrl+C stops both servers. Backend edits require a
+restart; React edits reload automatically. Re-running the script safely updates the seed records.
+
+The browser key is fetched from `/api/v1/config` at runtime; it is not baked into the frontend
+bundle. That endpoint returns only the Maps key and map ID. Restrict the key to Maps JavaScript
+API and the frontend origins in Google Cloud, including your local preview origin during
+development. Use your own `GOOGLE_MAPS_MAP_ID` for deployment; `DEMO_MAP_ID` works for testing.
 
 ## Project direction and research
 
 See the [product proposal](docs/product-plan.md) for the broader vision, planned frontend
 features, and open questions. The [data-sourcing research](docs/data-sourcing.html) and
-[Toronto research seed](data/seed-toronto-10.json) are also available. The research seed uses
-a different format and includes fields outside the current API schema; convert it to the
-`items` format described below before importing. Use `data/sample_churches.json` for the
-runnable demo.
+[Toronto research seed](data/seed-toronto-10.json) are also available. Import the research seed
+with `uv run churchfinder-import data/seed-toronto-10.json --format research`. This maps its
+top-level source and church records to the API schema; extra research metadata stays in the JSON.
+Coordinates from this dataset are credited to OpenStreetMap in the frontend.
 
 ## Start locally
 
@@ -60,6 +92,10 @@ or imports demo data automatically.
 |---|---|
 | `DATABASE_URL` | `postgresql+psycopg://churchfinder:churchfinder@localhost:5432/churchfinder` |
 | `CORS_ORIGINS` | JSON array, e.g. `["http://localhost:5173","http://localhost:3000"]` |
+| `GOOGLE_MAPS_API` | Browser key for Maps JavaScript API; blank disables the map but keeps the list |
+| `GOOGLE_MAPS_MAP_ID` | `DEMO_MAP_ID` for testing, or a custom JavaScript map ID |
+| `EMBED_ALLOWED_ORIGINS` | JSON array of exact host origins; defaults to `[]` (same-origin only) |
+| `FRONTEND_DIST` | Optional path to compiled assets; defaults to `frontend/dist` in this checkout |
 
 Settings load from `.env` in the current directory, with environment variables taking precedence.
 Add the deployed React origin to `CORS_ORIGINS` when the frontend is ready. Origins include the
@@ -226,9 +262,9 @@ TEST_DATABASE_URL=postgresql+psycopg://churchfinder:churchfinder@localhost:5432/
 PostgreSQL tests create and remove a randomly named schema per test; they do not reset existing
 application tables. The test user needs permission to create schemas.
 
-Eight focused tests cover search/filter combinations, pagination, map bounds, church details,
-duplicate-free re-imports, schedule updates, and rejection of an invalid batch before any writes.
-The fixtures apply the real migrations. CI runs this small suite against both SQLite and PostgreSQL.
+Ten focused tests cover the core API/import behavior, the Toronto seed adapter, and the public
+frontend configuration/embedding policy. The fixtures apply the real migrations. CI runs this
+small suite against both SQLite and PostgreSQL and compiles the React frontend.
 
 For future schema changes, edit the models, generate and review a migration, then apply it:
 
@@ -237,5 +273,58 @@ uv run alembic revision --autogenerate -m "Describe the schema change"
 uv run alembic upgrade head
 ```
 
-See [the original MVP ticket](church-discovery-ticket.md) for the frontend and map acceptance
-criteria that follow this backend milestone.
+See [the original MVP ticket](church-discovery-ticket.md) for the full MVP scope.
+
+## Embed in another website
+
+The reusable loader follows the iframe mount/ready/destroy pattern found in the Faith.UI project
+on the repository's `master` branch. At implementation time, `Distro` contained only the original
+ticket. This is a React/Python implementation with its own `ChurchFinder` namespace; it does not
+require the .NET service or its SSE resize connections. The map uses a fixed configurable height
+and fills its container width, with internal scrolling for results and details.
+
+```html
+<div id="church-map"></div>
+<script src="https://your-churchfinder.example/churchfinder.js"></script>
+<script>
+  const widget = ChurchFinder.mount("#church-map", {
+    endpoint: "https://your-churchfinder.example/embed/churches",
+    initialHeight: 760,
+    city: "Toronto"
+  });
+  widget.ready.catch(error => console.error(error.message));
+  // When removing the component: widget.destroy();
+</script>
+```
+
+Options: `endpoint`, `initialHeight` (480–2400 px), `title`, and initial `q`, `city`, `denomination`,
+or `language` filters. `ready` resolves after the map and results load, or rejects on failure or
+timeout. Messages are checked against the iframe window, origin, and instance ID. `destroy()`
+removes the frame and event listener. `ChurchFinder.getEmbedCode()` returns a basic snippet.
+
+A plain iframe also works:
+
+```html
+<iframe src="https://your-churchfinder.example/embed/churches?city=Toronto"
+        title="Find a church" style="width:100%;height:760px;border:0"></iframe>
+```
+
+Add the parent site's exact origin to `EMBED_ALLOWED_ORIGINS`, e.g. `["https://customer.example"]`.
+FastAPI enforces this with the `frame-ancestors` response header. The parent site must permit the
+ChurchFinder origin in its own `script-src` and `frame-src` policy, if it has one. API calls stay
+inside the iframe, so embedding does not require adding the parent to API CORS. Keep the Maps key
+restricted to the ChurchFinder origin, where the iframe actually runs.
+
+To try a separate-origin host while the local servers are running:
+
+```sh
+python3 -m http.server 5242 --bind 127.0.0.1 --directory examples/embed-host
+```
+
+Open [the independent host](http://127.0.0.1:5242/). `run-local.sh` allows these demo origins by
+default. Production startup uses the origins explicitly configured in `.env` or the environment.
+
+For deployment with the existing Python service, run `npm ci --prefix frontend` and
+`npm run build --prefix frontend`, then run the API. FastAPI serves the compiled app at `/`, the
+widget at `/embed/churches`, and the loader at `/churchfinder.js`. Deploy the repo with the build
+output and run migrations/imports as appropriate; no separate frontend hosting is required.

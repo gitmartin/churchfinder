@@ -11,7 +11,24 @@ from sqlalchemy.orm import Session, selectinload
 from churchfinder.config import Settings
 from churchfinder.database import build_engine
 from churchfinder.models import Church, ServiceTime, utc_now
-from churchfinder.schemas import ChurchImportBatch
+from churchfinder.schemas import ChurchImport, ChurchImportBatch
+
+
+def read_batch(contents: str, data_format: str = "api") -> ChurchImportBatch:
+    if data_format == "api":
+        return ChurchImportBatch.model_validate_json(contents)
+    document = json.loads(contents)
+    if not isinstance(document, dict) or not isinstance(document.get("churches"), list):
+        raise ValueError("Research data must contain a churches array and a source")
+    items = []
+    for church in document["churches"]:
+        if not isinstance(church, dict):
+            raise ValueError("Each research church must be an object")
+        # Research-only metadata stays in the source JSON, outside the MVP database schema.
+        item = {key: value for key, value in church.items() if key in ChurchImport.model_fields}
+        item["source"] = church.get("source") or document.get("source")
+        items.append(item)
+    return ChurchImportBatch.model_validate({"items": items})
 
 
 def import_batch(engine: Engine, batch: ChurchImportBatch) -> dict[str, int]:
@@ -59,6 +76,12 @@ def main() -> int:
     parser.add_argument("path", type=Path, nargs="?", help="JSON file containing an items array")
     parser.add_argument("--validate-only", action="store_true", help="Validate without a database")
     parser.add_argument("--schema", action="store_true", help="Print the JSON Schema and exit")
+    parser.add_argument(
+        "--format",
+        choices=["api", "research"],
+        default="api",
+        help="Use research for the Toronto seed's churches array and top-level source",
+    )
     args = parser.parse_args()
     if args.schema:
         print(json.dumps(ChurchImportBatch.model_json_schema(), indent=2))
@@ -66,8 +89,8 @@ def main() -> int:
     if args.path is None:
         parser.error("path is required unless --schema is used")
     try:
-        batch = ChurchImportBatch.model_validate_json(args.path.read_text(encoding="utf-8"))
-    except (OSError, UnicodeError, ValidationError) as exc:
+        batch = read_batch(args.path.read_text(encoding="utf-8"), args.format)
+    except (OSError, UnicodeError, ValidationError, ValueError) as exc:
         print(f"Import failed: {exc}", file=sys.stderr)
         return 1
     if args.validate_only:
