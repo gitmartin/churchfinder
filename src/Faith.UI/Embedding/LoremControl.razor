@@ -1,0 +1,15 @@
+<section class="lorem-control" aria-labelledby="control-title" data-lorem-control>
+  <span class="eyebrow">FAITH.UI · COMPONENT @ComponentKey.ToUpperInvariant()</span>
+  <h1 id="control-title">A little more to say.</h1>
+  <p class="intro">Add a paragraph of Lorem ipsum and watch this space grow.</p>
+  <div class="actions">
+    <button type="button" class="primary" data-add>Add Lorem ipsum <span aria-hidden="true">+</span></button>
+    <button type="button" class="secondary" data-clear disabled>Clear text</button>
+  </div>
+  <p class="response" role="status" aria-live="polite" data-status>Ready when you are.</p>
+  <div class="paragraphs" data-paragraphs></div>
+</section>
+
+@code {
+  [Parameter] public string ComponentKey { get; set; } = "a";
+}

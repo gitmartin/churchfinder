@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+  <PropertyGroup>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <EnableDefaultRazorComponentItems>false</EnableDefaultRazorComponentItems>
+    <EnableDefaultContentItems>false</EnableDefaultContentItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <RazorComponent Include="_Imports.razor" />
+    <RazorComponent Include="Embedding/**/*.razor" />
+    <Content Include="wwwroot/embed.css;wwwroot/embed.js;wwwroot/faith-ui.js" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+</Project>

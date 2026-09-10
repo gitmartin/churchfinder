@@ -1,0 +1,55 @@
+@page "/components/{ComponentKey}"
+@inject IJSRuntime JS
+
+<PageTitle>Component @ComponentKey.ToUpperInvariant() · Faith.UI</PageTitle>
+<header><a class="brand" href="/">faith<span>.ui</span></a><a href="/" class="back-link">All components</a></header>
+@if (ComponentKey is "a" or "b" or "c")
+{
+  <main>
+    <p class="eyebrow">COMPONENT @ComponentKey.ToUpperInvariant() / SUMMARY</p>
+    <h1>A button.<br>A growing response.</h1>
+    <p class="lead">Click “Add Lorem ipsum” to load a paragraph from local SQLite. The control adds the text and automatically adjusts its iframe height. “Clear text” makes it shrink again.</p>
+    <div class="page-actions">
+      <a class="button" href="@($"/examples/{ComponentKey}.html")" data-enhance-nav="false">Open HTML demo <span aria-hidden="true">↗</span></a>
+      <a class="text-link" href="@($"http://localhost:5242/component-{ComponentKey}.html")">Open in test website</a>
+      <a class="text-link" href="@($"/embed/{ComponentKey}")" data-enhance-nav="false">Open control directly</a>
+    </div>
+    <section class="code-section">
+      <div class="section-heading"><h2>Add it to your page</h2><button class="copy-button" type="button" @onclick="CopyCode" disabled="@(embedCode.Length == 0)">Copy code</button></div>
+      <pre><code id="embed-code">@embedCode</code></pre>
+      <p class="copy-status" role="status">@copyStatus</p>
+    </section>
+    <div class="endpoint-line"><span>Component endpoint</span><a href="@($"/embed/{ComponentKey}")" data-enhance-nav="false">/embed/@ComponentKey</a></div>
+  </main>
+}
+else
+{
+  <main><h1>Component not found</h1><a href="/">Component catalog</a></main>
+}
+<footer>Faith.UI.Service <span>Component @ComponentKey.ToUpperInvariant() · Blazor Server</span></footer>
+
+@code {
+  [Parameter] public string ComponentKey { get; set; } = "a";
+  private string renderedKey = "";
+  private string embedCode = "";
+  private string copyStatus = "";
+
+  protected override async Task OnAfterRenderAsync(bool firstRender)
+  {
+    if (renderedKey == ComponentKey || ComponentKey is not ("a" or "b" or "c")) return;
+    renderedKey = ComponentKey;
+    embedCode = await JS.InvokeAsync<string>("Faith.UI.getEmbedCode", ComponentKey);
+    copyStatus = "";
+    StateHasChanged();
+  }
+
+  private async Task CopyCode()
+  {
+    try
+    {
+      await JS.InvokeVoidAsync("navigator.clipboard.writeText", embedCode);
+      copyStatus = "Embed code copied.";
+    }
+    catch (JSException) { copyStatus = "Select the code above to copy it."; }
+  }
+}

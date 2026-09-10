@@ -1,0 +1,9 @@
+[
+  {
+    "Name": "Service + Test Website",
+    "Projects": [
+      { "Path": "src\\Faith.UI.Service\\Faith.UI.Service.csproj", "Action": "Start" },
+      { "Path": "src\\Faith.UI.TestSite\\Faith.UI.TestSite.csproj", "Action": "Start" }
+    ]
+  }
+]

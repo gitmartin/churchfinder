@@ -1,0 +1,26 @@
+:root {
+  color-scheme: light;
+  font-family: Inter, "Segoe UI", sans-serif;
+  color: #16372d;
+  background: #fff;
+  font-synthesis: none;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { overflow-wrap: anywhere; }
+#faith-content { display: flow-root; }
+.lorem-control { padding: clamp(20px, 5vw, 36px); }
+.eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .13em; color: #456b5c; }
+h1 { margin: 16px 0 10px; font-size: clamp(24px, 5vw, 32px); letter-spacing: -.035em; line-height: 1.2; }
+.intro { color: #576b63; margin: 0 0 24px; font-size: 16px; line-height: 1.6; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; }
+button { min-height: 44px; padding: 11px 18px; border: 1px solid #c9d8d0; border-radius: 8px; font: 600 14px/1.4 Inter, "Segoe UI", sans-serif; cursor: pointer; }
+button:focus-visible { outline: 3px solid #569782; outline-offset: 3px; }
+.primary { display: inline-flex; gap: 20px; align-items: center; background: #174c3b; border-color: #174c3b; color: #fff; }
+.primary:hover { background: #22634d; }
+.secondary { background: #fff; color: #174c3b; }
+button:disabled { cursor: default; opacity: .5; }
+.response { margin: 18px 0 0; color: #576b63; font-size: 14px; line-height: 1.5; }
+.response[data-error="true"] { color: #a22828; }
+.paragraphs p { border-top: 1px solid #e2eae5; padding-top: 20px; margin: 22px 0 0; color: #364b42; font-size: 16px; line-height: 1.8; }
+noscript { display: block; padding: 20px; }

@@ -1,1 +1,11 @@
 .DS_Store
+
+# Faith.UI local build and development files
+**/bin/
+**/obj/
+artifacts/
+.vs/
+.worktrees/
+**/App_Data/
+*.user
+node_modules/

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Component C · HTML demo</title>
+  <link rel="stylesheet" href="/examples/demo.css">
+
+</head>
+<body data-component="c">
+  <header class="page-header">
+    <a class="brand" href="/">faith<span>.ui</span></a>
+    <span class="header-label">COMPONENT C / HTML DEMO</span>
+  </header>
+  <main>
+    <div class="heading">
+      <div>
+        <p class="eyebrow">YOUR WEBSITE, OUR CONTROL</p>
+        <h1>A small embed.<br>A little room to grow.</h1>
+        <p class="description">The panel below loads from Faith.UI. Add some text, then clear it. This page adjusts around it.</p>
+      </div>
+      <span class="origin-label">Standalone HTML page<br><strong>Component C</strong></span>
+    </div>
+    <section class="client-content" aria-labelledby="welcome-title">
+      <div>
+        <p class="content-label">YOUR WEBSITE · ABOVE THE COMPONENT</p>
+        <h2 id="welcome-title">Welcome to the community</h2>
+        <p>There is always room for another conversation, a shared meal, or a helping hand. Catch up on our latest news and find a place to get involved.</p>
+      </div>
+      <aside class="gathering-card" aria-label="Next gathering">
+        <span>THIS WEEK</span>
+        <strong>Sunday gathering</strong>
+        <p>10:00 am · Community hall<br>Everyone is welcome.</p>
+      </aside>
+    </section>
+    <section class="embedded-demo" aria-labelledby="embed-title">
+      <div class="embed-heading">
+        <span class="embed-badge">EMBEDDED FROM FAITH.UI</span>
+        <h2 id="embed-title">Component C loads here</h2>
+        <p>The outlined area is the embedded control. Add text inside it to watch the content below move.</p>
+      </div>
+      <div class="demo-toolbar">
+        <div class="width-options" role="group" aria-label="Container width">
+          <button type="button" aria-pressed="true" data-width="wide">Wide</button>
+          <button type="button" aria-pressed="false" data-width="compact">Compact</button>
+        </div>
+        <span class="dimensions" id="dimensions">Measuring…</span>
+      </div>
+      <div class="widget-shell" id="widget-shell">
+        <div id="faith-c"></div>
+      </div>
+      <div class="below-widget">
+        <p id="connection-status" role="status">Loading the control…</p>
+        <span>This is part of your page. It moves with the embed.</span>
+      </div>
+    </section>
+    <section class="client-followup" aria-labelledby="news-title">
+      <p class="content-label">YOUR WEBSITE · BELOW THE COMPONENT</p>
+      <h2 id="news-title">Around the community</h2>
+      <div class="news-grid">
+        <article class="news-card">
+          <span>COMMUNITY UPDATE</span>
+          <h3>A little time makes a difference</h3>
+          <p>Our volunteer team is preparing care packages for local families. Thank you to everyone sharing their time and supplies.</p>
+        </article>
+        <article class="news-card">
+          <span>PLAN YOUR VISIT</span>
+          <h3>Come as you are</h3>
+          <p>Meet us in the community hall for coffee before the gathering. Our welcome team can help you find your way.</p>
+        </article>
+      </div>
+    </section>
+    <details class="integration">
+      <summary>The embed call</summary>
+      <pre><code id="embed-code">Loading embed code…</code></pre>
+    </details>
+  </main>
+  <footer>Faith.UI <span>Local proof of concept · HTML + JavaScript</span></footer>
+  <script src="/examples/demo.js"></script>
+  <script src="/_content/Faith.UI/faith-ui.js"></script>
+  <script>
+    (() => {
+      try {
+        const widget = Faith.UI.mount("#faith-c", {
+          endpoint: "/embed/c",
+          initialHeight: 280,
+          minHeight: 120,
+          maxHeight: 2400
+        });
+        FaithDemo.attach(widget);
+      } catch (error) {
+        FaithDemo.showError(error);
+      }
+    })();
+  </script>
+</body>
+</html>

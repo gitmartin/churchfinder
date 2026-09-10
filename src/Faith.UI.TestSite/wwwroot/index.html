@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Faith.UI · Test website</title>
+  <link rel="stylesheet" href="/demo.css">
+</head>
+<body data-component="a">
+  <header class="page-header">
+    <a class="brand" href="/">faith<span>.ui</span></a>
+    <a class="catalog-link" href="https://localhost:7241/">Component catalog ↗</a>
+  </header>
+  <main>
+    <nav class="component-nav" aria-label="Test website pages">
+      <a href="/" aria-current="page">Test website</a>
+      <a href="/component-a.html">Component A</a>
+      <a href="/component-b.html">Component B</a>
+      <a href="/component-c.html">Component C</a>
+    </nav>
+    <div class="heading">
+      <div>
+        <p class="eyebrow">A WEBSITE USING FAITH.UI</p>
+        <h1>Your page.<br>Our components.</h1>
+        <p class="description">This HTML page loads Component A from the Faith.UI service. Add some text, then clear it. The page adjusts around the control.</p>
+      </div>
+      <span class="origin-label">Independent test website<br><strong>Component A</strong></span>
+    </div>
+    <section class="client-content" aria-labelledby="welcome-title">
+      <div>
+        <p class="content-label">YOUR WEBSITE · ABOVE THE COMPONENT</p>
+        <h2 id="welcome-title">Welcome to the community</h2>
+        <p>There is always room for another conversation, a shared meal, or a helping hand. Catch up on our latest news and find a place to get involved.</p>
+      </div>
+      <aside class="gathering-card" aria-label="Next gathering">
+        <span>THIS WEEK</span>
+        <strong>Sunday gathering</strong>
+        <p>10:00 am · Community hall<br>Everyone is welcome.</p>
+      </aside>
+    </section>
+    <section class="embedded-demo" aria-labelledby="embed-title">
+      <div class="embed-heading">
+        <span class="embed-badge">EMBEDDED FROM FAITH.UI</span>
+        <h2 id="embed-title">Component A loads here</h2>
+        <p>The outlined area is the embedded control. Add text inside it to watch the content below move.</p>
+      </div>
+      <div class="demo-toolbar">
+        <div class="width-options" role="group" aria-label="Container width">
+          <button type="button" aria-pressed="true" data-width="wide">Wide</button>
+          <button type="button" aria-pressed="false" data-width="compact">Compact</button>
+        </div>
+        <span class="dimensions" id="dimensions">Measuring…</span>
+      </div>
+      <div class="widget-shell" id="widget-shell">
+        <div id="faith-a"></div>
+      </div>
+      <div class="below-widget">
+        <p id="connection-status" role="status">Loading the control…</p>
+        <span>This is part of your page. It moves with the embed.</span>
+      </div>
+      <noscript>Enable JavaScript to load the component.</noscript>
+    </section>
+    <section class="client-followup" aria-labelledby="news-title">
+      <p class="content-label">YOUR WEBSITE · BELOW THE COMPONENT</p>
+      <h2 id="news-title">Around the community</h2>
+      <div class="news-grid">
+        <article class="news-card">
+          <span>COMMUNITY UPDATE</span>
+          <h3>A little time makes a difference</h3>
+          <p>Our volunteer team is preparing care packages for local families. Thank you to everyone sharing their time and supplies.</p>
+        </article>
+        <article class="news-card">
+          <span>PLAN YOUR VISIT</span>
+          <h3>Come as you are</h3>
+          <p>Meet us in the community hall for coffee before the gathering. Our welcome team can help you find your way.</p>
+        </article>
+      </div>
+    </section>
+    <details class="integration">
+      <summary>The embed call</summary>
+      <pre><code id="embed-code">Start Faith.UI.Service to load the embed code.</code></pre>
+    </details>
+  </main>
+  <footer>Faith.UI.TestSite <span>Independent website · HTML + JavaScript</span></footer>
+  <script src="/demo.js"></script>
+  <script src="https://localhost:7241/_content/Faith.UI/faith-ui.js"></script>
+  <script>
+    (() => {
+      try {
+        const widget = Faith.UI.mount("#faith-a", {
+          endpoint: "https://localhost:7241/embed/a",
+          initialHeight: 280,
+          minHeight: 120,
+          maxHeight: 2400
+        });
+        FaithDemo.attach(widget);
+      } catch (error) {
+        FaithDemo.showError(new Error("The control could not load. Start Faith.UI.Service and trust its local HTTPS certificate."));
+      }
+    })();
+  </script>
+</body>
+</html>

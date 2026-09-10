@@ -1,0 +1,22 @@
+@page "/"
+<PageTitle>Faith.UI · Component library</PageTitle>
+<header><a class="brand" href="/">faith<span>.ui</span></a><span class="header-label">COMPONENT SERVICE</span></header>
+<main>
+  <p class="eyebrow">A SMALL LIBRARY, READY TO EMBED</p>
+  <h1>Components for<br>your next page.</h1>
+  <p class="lead">Choose a component, open its HTML demo, and copy the JavaScript call into your website.</p>
+  <div class="component-grid">
+    @foreach (string key in new[] { "a", "b", "c" })
+    {
+      <article class="component-card">
+        <span class="component-letter">@key.ToUpperInvariant()</span>
+        <p class="eyebrow">SAMPLE COMPONENT</p>
+        <h2>Component @key.ToUpperInvariant()</h2>
+        <p>A button, a Lorem ipsum response, and an iframe that follows the content height.</p>
+        <a class="button" href="@($"/components/{key}")">View component <span aria-hidden="true">↗</span></a>
+      </article>
+    }
+  </div>
+  <p class="footnote">A, B, and C are starter components using the same simple control. Each has its own page, endpoint, and HTML demo.</p>
+</main>
+<footer>Faith.UI.Service <span>Local SQLite · Independent JavaScript loader</span></footer>
