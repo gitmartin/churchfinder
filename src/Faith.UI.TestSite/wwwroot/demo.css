@@ -31,6 +31,7 @@ h1 { font-size: clamp(30px, 5vw, 46px); line-height: 1.13; font-weight: 650; let
 .embed-badge { display: inline-block; margin-bottom: 12px; padding: 6px 9px; border-radius: 5px; background: #174c3b; color: #fff; font-size: 10px; font-weight: 650; letter-spacing: .1em; }
 .embed-heading h2 { margin: 0 0 8px; font-size: 22px; font-weight: 650; letter-spacing: -.02em; }
 .embed-heading p { margin: 0; color: #637268; font-size: 13px; line-height: 1.6; }
+.standalone-link { display: inline-block; margin-top: 14px; color: #174c3b; font-size: 14px; font-weight: 600; text-underline-offset: 3px; }
 .client-followup { margin-top: 30px; }
 .news-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 .news-card { padding: 22px; border: 1px solid #d9e3dc; border-radius: 12px; background: #e9f0eb; }

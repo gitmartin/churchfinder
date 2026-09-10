@@ -35,11 +35,13 @@ try {
     await controlGate;
     await route.continue();
   }, { times: 1 });
+  const sampleStarted = Date.now();
   await page.goto("http://127.0.0.1:5242");
   try {
     await page.locator("#faith-a iframe[src]").waitFor({ state: "attached" });
-    check("Loading icon is visible while the iframe stays hidden and reserves space",
-      await page.locator("#faith-a .faith-ui-loading").isVisible()
+    check("Three-second demo delay shows the loading icon and reserves the hidden iframe's space",
+      Date.now() - sampleStarted >= 3000
+      && await page.locator("#faith-a .faith-ui-loading").isVisible()
       && await page.locator("#faith-a iframe").evaluate(element => getComputedStyle(element).visibility === "hidden"
         && element.getBoundingClientRect().height === 280)
       && await page.locator("#faith-a .faith-ui-embed").getAttribute("aria-busy") === "true");

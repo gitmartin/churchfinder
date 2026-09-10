@@ -20,6 +20,10 @@
     const minHeight = dimension(options.minHeight, 120, 120, 10000);
     const maxHeight = dimension(options.maxHeight, 10000, minHeight, 10000);
     const initialHeight = dimension(options.initialHeight, Math.min(maxHeight, Math.max(minHeight, 280)), minHeight, maxHeight);
+    const demoDelayMs = options.demoDelayMs ?? 0;
+    if (!Number.isInteger(demoDelayMs) || demoDelayMs < 0 || demoDelayMs > 10000) {
+      throw new RangeError("Demo delay must be between 0 and 10000 milliseconds.");
+    }
     const width = Math.max(1, Math.min(10000, Math.round(container.getBoundingClientRect().width)));
     for (const [key, value] of Object.entries({ parentOrigin: location.origin, width, initialHeight, minHeight, maxHeight })) endpoint.searchParams.set(key, String(value));
 
@@ -51,10 +55,11 @@
     let events = null;
     let settled = false;
     let destroyed = false;
+    let loadTimer = null;
     let resolveReady;
     let rejectReady;
     const ready = new Promise((resolve, reject) => { resolveReady = resolve; rejectReady = reject; });
-    const timeout = setTimeout(() => fail(new Error("The control did not load. Check the service and allowed host origins.")), 15000);
+    const timeout = setTimeout(() => fail(new Error("The control did not load. Check the service and allowed host origins.")), 15000 + demoDelayMs);
     function release() {
       events?.close();
       if (connection) {
@@ -74,6 +79,7 @@
         if (destroyed) return;
         destroyed = true;
         clearTimeout(timeout);
+        clearTimeout(loadTimer);
         controller.abort();
         release();
         spinner?.cancel();
@@ -125,7 +131,11 @@
       });
       events.onerror = () => container.dispatchEvent(new CustomEvent("faithui:connection", { detail: { connected: false } }));
     }
-    connect().catch(fail);
+    if (demoDelayMs > 0) {
+      loadTimer = setTimeout(() => connect().catch(fail), demoDelayMs);
+    } else {
+      connect().catch(fail);
+    }
     return handle;
   }
   function getEmbedCode(component = "a") {

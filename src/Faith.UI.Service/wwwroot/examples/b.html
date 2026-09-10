@@ -38,6 +38,7 @@
         <span class="embed-badge">EMBEDDED FROM FAITH.UI</span>
         <h2 id="embed-title">Component B loads here</h2>
         <p>The outlined area is the embedded control. Add text inside it to watch the content below move.</p>
+        <a class="standalone-link" href="/embed/b">Open component on its own <span aria-hidden="true">↗</span></a>
       </div>
       <div class="demo-toolbar">
         <div class="width-options" role="group" aria-label="Container width">
@@ -83,6 +84,8 @@
       try {
         const widget = Faith.UI.mount("#faith-b", {
           endpoint: "/embed/b",
+          // Demo only: keep the loading indicator visible.
+          demoDelayMs: 3000,
           initialHeight: 280,
           minHeight: 120,
           maxHeight: 2400

@@ -89,6 +89,8 @@
       try {
         const widget = Faith.UI.mount("#faith-a", {
           endpoint: "https://localhost:7241/embed/a",
+          // Demo only: keep the loading indicator visible.
+          demoDelayMs: 3000,
           initialHeight: 280,
           minHeight: 120,
           maxHeight: 2400
