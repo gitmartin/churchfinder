@@ -217,9 +217,9 @@ TEST_DATABASE_URL=postgresql+psycopg://churchfinder:churchfinder@localhost:5432/
 PostgreSQL tests create and remove a randomly named schema per test; they do not reset existing
 application tables. The test user needs permission to create schemas.
 
-Coverage includes search/filter combinations, pagination, map bounds and invalid coordinates,
-detail lookup, CORS, duplicate prevention, import rollback, UTC timestamps, and migration
-upgrade/downgrade plus model consistency. CI runs against both SQLite and PostgreSQL.
+Eight focused tests cover search/filter combinations, pagination, map bounds, church details,
+duplicate-free re-imports, schedule updates, and rejection of an invalid batch before any writes.
+The fixtures apply the real migrations. CI runs this small suite against both SQLite and PostgreSQL.
 
 For future schema changes, edit the models, generate and review a migration, then apply it:
 

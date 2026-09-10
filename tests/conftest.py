@@ -18,12 +18,6 @@ from churchfinder.schemas import ChurchImportBatch
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def migration_config(connection) -> Config:
-    config = Config(str(ROOT / "alembic.ini"))
-    config.attributes["connection"] = connection
-    return config
-
-
 @pytest.fixture
 def engine(tmp_path):
     """Use migrations on SQLite, or an isolated schema in a supplied PostgreSQL database."""
@@ -43,7 +37,9 @@ def engine(tmp_path):
         database_engine = build_engine(f"sqlite:///{tmp_path / 'test.db'}")
     try:
         with database_engine.begin() as connection:
-            command.upgrade(migration_config(connection), "head")
+            config = Config(str(ROOT / "alembic.ini"))
+            config.attributes["connection"] = connection
+            command.upgrade(config, "head")
         yield database_engine
     finally:
         database_engine.dispose()
@@ -59,13 +55,8 @@ def batch():
 
 
 @pytest.fixture
-def seeded_engine(engine, batch):
+def client(engine, batch):
     import_batch(engine, batch)
-    return engine
-
-
-@pytest.fixture
-def client(seeded_engine):
     settings = Settings(_env_file=None, cors_origins=["http://localhost:5173"])
-    with TestClient(create_app(settings, engine=seeded_engine)) as test_client:
+    with TestClient(create_app(settings, engine=engine)) as test_client:
         yield test_client
