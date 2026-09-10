@@ -1,0 +1,646 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ten Toronto Churches</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+  :root {
+    color-scheme: light dark;
+    --ground: #f2f5f4;
+    --surface: #ffffff;
+    --surface-sunk: #e9eeec;
+    --ink: #131b1a;
+    --ink-soft: #46534f;
+    --ink-faint: #788783;
+    --rule: #d6dedb;
+    --rule-strong: #b9c5c1;
+    --verdigris: #1a6656;
+    --verdigris-soft: #d7e8e3;
+    --copper: #9c5a24;
+    --copper-soft: #f2e2d4;
+    --absent: #8a3d3d;
+    --absent-soft: #f3dcdc;
+    --shadow: 0 1px 2px rgba(19, 27, 26, .06);
+
+    --display: "Newsreader", Georgia, "Times New Roman", serif;
+    --body: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #0e1514;
+      --surface: #16201e;
+      --surface-sunk: #1c2725;
+      --ink: #e4ebe9;
+      --ink-soft: #a3b2ae;
+      --ink-faint: #7b8a86;
+      --rule: #2a3937;
+      --rule-strong: #3b4c49;
+      --verdigris: #52b8a0;
+      --verdigris-soft: #16332d;
+      --copper: #cf8b52;
+      --copper-soft: #33231566;
+      --absent: #d97a7a;
+      --absent-soft: #35191999;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .3);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground: #0e1514;
+    --surface: #16201e;
+    --surface-sunk: #1c2725;
+    --ink: #e4ebe9;
+    --ink-soft: #a3b2ae;
+    --ink-faint: #7b8a86;
+    --rule: #2a3937;
+    --rule-strong: #3b4c49;
+    --verdigris: #52b8a0;
+    --verdigris-soft: #16332d;
+    --copper: #cf8b52;
+    --copper-soft: #33231566;
+    --absent: #d97a7a;
+    --absent-soft: #35191999;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .3);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 15px;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding-inline: 24px;
+    padding-block: 56px 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+  }
+
+  /* ---- masthead ---- */
+  .masthead { display: flex; flex-direction: column; gap: 18px; }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    color: var(--verdigris);
+  }
+
+  h1 {
+    font-family: var(--display);
+    font-size: clamp(34px, 6vw, 52px);
+    font-weight: 500;
+    line-height: 1.08;
+    letter-spacing: -.015em;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  .standfirst {
+    font-family: var(--display);
+    font-size: clamp(17px, 2.4vw, 20px);
+    line-height: 1.5;
+    color: var(--ink-soft);
+    margin: 0;
+    max-width: 62ch;
+  }
+
+  .byline {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--ink-faint);
+    border-top: 1px solid var(--rule);
+    padding-top: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+  }
+
+  /* ---- finding ---- */
+  .finding {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--copper);
+    border-radius: 3px;
+    padding: 26px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .finding h2 {
+    font-family: var(--display);
+    font-size: 24px;
+    font-weight: 500;
+    margin: 0;
+    letter-spacing: -.01em;
+    text-wrap: balance;
+  }
+
+  .finding p { margin: 0; max-width: 68ch; color: var(--ink-soft); }
+  .finding strong { color: var(--ink); font-weight: 600; }
+
+  .swap {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: 4px;
+  }
+
+  .swap div { background: var(--surface); padding: 15px 17px; }
+
+  .swap dt {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 7px;
+  }
+
+  .swap dd {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--ink-soft);
+  }
+
+  .swap .was { text-decoration: line-through; text-decoration-color: var(--absent); color: var(--ink-faint); }
+  .swap .now { color: var(--ink); font-weight: 500; }
+
+  /* ---- sections ---- */
+  section { display: flex; flex-direction: column; gap: 20px; }
+
+  .section-head { display: flex; flex-direction: column; gap: 7px; }
+
+  h2.sec {
+    font-family: var(--display);
+    font-size: 27px;
+    font-weight: 500;
+    letter-spacing: -.012em;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  .sec-note { margin: 0; color: var(--ink-soft); max-width: 66ch; font-size: 14.5px; }
+
+  /* ---- coverage ---- */
+  .coverage {
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    overflow: hidden;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+  }
+
+  .cov-row {
+    display: grid;
+    grid-template-columns: minmax(150px, 1.5fr) 74px minmax(90px, 100px) minmax(180px, 2.4fr);
+    align-items: center;
+    gap: 14px;
+    padding: 11px 18px;
+    border-top: 1px solid var(--rule);
+  }
+
+  .cov-row:first-child { border-top: 0; }
+
+  .cov-head {
+    background: var(--surface-sunk);
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  .cov-field { font-family: var(--mono); font-size: 12.5px; font-weight: 500; }
+
+  .cov-count {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-soft);
+  }
+
+  .bar {
+    height: 6px;
+    background: var(--surface-sunk);
+    border-radius: 1px;
+    overflow: hidden;
+  }
+
+  .bar span { display: block; height: 100%; background: var(--verdigris); }
+  .bar.none span { background: var(--absent); }
+  .bar.part span { background: var(--copper); }
+
+  .cov-verdict { font-size: 13.5px; color: var(--ink-soft); line-height: 1.4; }
+
+  .chip {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+    padding: 2.5px 7px;
+    border-radius: 2px;
+    margin-right: 7px;
+    vertical-align: 1px;
+  }
+
+  .chip.free { background: var(--verdigris-soft); color: var(--verdigris); }
+  .chip.work { background: var(--copper-soft); color: var(--copper); }
+  .chip.gone { background: var(--absent-soft); color: var(--absent); }
+
+  /* ---- table ---- */
+  .scroller {
+    overflow-x: auto;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+  }
+
+  table { border-collapse: collapse; font-size: 12.5px; width: 100%; }
+
+  th, td {
+    text-align: left;
+    padding: 9px 13px;
+    border-bottom: 1px solid var(--rule);
+    white-space: nowrap;
+    vertical-align: top;
+  }
+
+  thead th {
+    background: var(--surface-sunk);
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    position: sticky;
+    top: 0;
+    border-bottom: 1px solid var(--rule-strong);
+  }
+
+  tbody tr:last-child td { border-bottom: 0; }
+
+  td.nm {
+    font-weight: 500;
+    white-space: normal;
+    min-width: 190px;
+    font-size: 13px;
+  }
+
+  td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+  .null {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--ink-faint);
+    background: var(--surface-sunk);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+
+  .yes { color: var(--verdigris); font-weight: 600; font-family: var(--mono); font-size: 11.5px; }
+  .caveat { color: var(--copper); font-family: var(--mono); font-size: 11.5px; }
+
+  /* ---- recommendations ---- */
+  .recs { display: flex; flex-direction: column; gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 3px; overflow: hidden; }
+
+  .rec { background: var(--surface); padding: 20px 22px; display: flex; flex-direction: column; gap: 8px; }
+
+  .rec h3 { margin: 0; font-size: 15.5px; font-weight: 600; letter-spacing: -.005em; }
+  .rec h3 code { font-family: var(--mono); font-size: 13px; font-weight: 500; color: var(--verdigris); }
+  .rec p { margin: 0; color: var(--ink-soft); font-size: 14px; max-width: 72ch; }
+
+  code {
+    font-family: var(--mono);
+    font-size: .88em;
+    background: var(--surface-sunk);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+
+  .rec h3 code { background: none; padding: 0; }
+
+  .open-q {
+    border-top: 1px solid var(--rule);
+    padding-top: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .open-q p { margin: 0; color: var(--ink-soft); max-width: 68ch; font-size: 14.5px; }
+  .open-q p strong { color: var(--ink); font-weight: 600; }
+
+  a { color: var(--verdigris); text-underline-offset: 2px; }
+  a:focus-visible, .scroller:focus-visible { outline: 2px solid var(--verdigris); outline-offset: 2px; }
+
+  @media (max-width: 620px) {
+    .wrap { padding-block: 40px 60px; gap: 44px; }
+    .cov-row { grid-template-columns: 1fr 62px; row-gap: 8px; }
+    .cov-row .bar { grid-column: 1 / -1; }
+    .cov-verdict { grid-column: 1 / -1; }
+    .cov-head { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="eyebrow">Data sourcing · Sample of ten</div>
+    <h1>Ten Toronto Churches</h1>
+    <p class="standfirst">A hand-researched sample built to find out which fields in the ChurchFinder schema can actually be filled — and which ones no amount of crawling will reach.</p>
+    <div class="byline">
+      <span>Researched 9 Sep 2026</span>
+      <span>Public web sources only — no Places API key yet</span>
+      <span>Unknowns left null, never invented</span>
+    </div>
+  </header>
+
+  <div class="finding">
+    <h2>The README has the two hard filters backwards</h2>
+    <p>The plan lists <strong>size</strong> and <strong>age</strong> as equally hard, both needing per-church research. In practice they are nothing alike. Founding years came back for <strong>nine of ten churches</strong> on the first search — heritage plaques, diocesan records, the Canadian Encyclopedia and Wikipedia all carry them, because a church's own history is the thing a church most likes to publish. Current attendance came back for <strong>zero of ten</strong>. Not one congregation publishes it.</p>
+    <dl class="swap">
+      <div>
+        <dt>Age / year founded</dt>
+        <dd><span class="was">No public source</span> → <span class="now">Widely documented. Hard to <em>define</em>, not to find.</span></dd>
+      </div>
+      <div>
+        <dt>Size / attendance</dt>
+        <dd><span class="was">Needs estimation</span> → <span class="now">Genuinely absent. Nothing to estimate from.</span></dd>
+      </div>
+    </dl>
+    <p>That reordering matters for the plan: the age filter is close to shippable from public data, and the size filter needs a different design altogether.</p>
+  </div>
+
+  <section>
+    <div class="section-head">
+      <h2 class="sec">What each field cost to fill</h2>
+      <p class="sec-note">Coverage across the ten-church sample. Bars are fields filled, not quality — a green bar means the data existed and was findable in one or two searches.</p>
+    </div>
+
+    <div class="coverage">
+      <div class="cov-row cov-head">
+        <div>Field</div><div>Filled</div><div></div><div>Verdict</div>
+      </div>
+
+      <div class="cov-row">
+        <div class="cov-field">name</div>
+        <div class="cov-count">10 / 10</div>
+        <div class="bar"><span style="width:100%"></span></div>
+        <div class="cov-verdict"><span class="chip free">Free</span>Places returns this. So does every directory.</div>
+      </div>
+
+      <div class="cov-row">
+        <div class="cov-field">denomination</div>
+        <div class="cov-count">10 / 10</div>
+        <div class="bar"><span style="width:100%"></span></div>
+        <div class="cov-verdict"><span class="chip work">Normalize</span>Always discoverable, but the labels don't agree. See below.</div>
+      </div>
+
+      <div class="cov-row">
+        <div class="cov-field">address_line1</div>
+        <div class="cov-count">9 / 10</div>
+        <div class="bar part"><span style="width:90%"></span></div>
+        <div class="cov-verdict"><span class="chip free">Free</span>The miss is a church that relocated; I left it null rather than guess.</div>
+      </div>
+
+      <div class="cov-row">
+        <div class="cov-field">postal_code</div>
+        <div class="cov-count">1 / 10</div>
+        <div class="bar none"><span style="width:10%"></span></div>
+        <div class="cov-verdict"><span class="chip free">Free from Places</span>Rarely on the open web; trivially returned by a geocoder.</div>
+      </div>
+
+      <div class="cov-row">
+        <div class="cov-field">latitude / longitude</div>
+        <div class="cov-count">0 / 10</div>
+        <div class="bar none"><span style="width:0%"></span></div>
+        <div class="cov-verdict"><span class="chip free">Free from Places</span>Deliberately null — guessing coordinates would hide that they're missing.</div>
+      </div>
+
+      <div class="cov-row">
+        <div class="cov-field">website_url</div>
+        <div class="cov-count">5 / 10</div>
+        <div class="bar part"><span style="width:50%"></span></div>
+        <div class="cov-verdict"><span class="chip free">Free from Places</span>Half surfaced incidentally; Places carries it directly.</div>
+      </div>
+
+      <div class="cov-row">
+        <div class="cov-field">congregation_founded_year</div>
+        <div class="cov-count">9 / 10</div>
+        <div class="bar"><span style="width:90%"></span></div>
+        <div class="cov-verdict"><span class="chip free">Cheap research</span>The pleasant surprise. One search each.</div>
+      </div>
+
+      <div class="cov-row">
+        <div class="cov-field">building_year</div>
+        <div class="cov-count">7 / 10</div>
+        <div class="bar part"><span style="width:70%"></span></div>
+        <div class="cov-verdict"><span class="chip work">Cheap research</span>Heritage registers are thorough on buildings.</div>
+      </div>
+
+      <div class="cov-row">
+        <div class="cov-field">attendance_estimate</div>
+        <div class="cov-count">0 / 10</div>
+        <div class="bar none"><span style="width:0%"></span></div>
+        <div class="cov-verdict"><span class="chip gone">Absent</span>No church in the sample publishes a current number.</div>
+      </div>
+
+      <div class="cov-row">
+        <div class="cov-field">seating_capacity</div>
+        <div class="cov-count">3 / 10</div>
+        <div class="bar part"><span style="width:30%"></span></div>
+        <div class="cov-verdict"><span class="chip work">Partial proxy</span>From heritage records — capacity, though, is not attendance.</div>
+      </div>
+
+      <div class="cov-row">
+        <div class="cov-field">sermon_feed_url</div>
+        <div class="cov-count">2 / 10</div>
+        <div class="bar part"><span style="width:20%"></span></div>
+        <div class="cov-verdict"><span class="chip work">Crawlable</span>Both found on the homepage in one fetch. Undercounted here.</div>
+      </div>
+
+      <div class="cov-row">
+        <div class="cov-field">service_times</div>
+        <div class="cov-count">1 / 10</div>
+        <div class="bar none"><span style="width:10%"></span></div>
+        <div class="cov-verdict"><span class="chip work">Crawlable</span>Same story — on the site, not in search results.</div>
+      </div>
+
+      <div class="cov-row">
+        <div class="cov-field">phone / email</div>
+        <div class="cov-count">0 / 10</div>
+        <div class="bar none"><span style="width:0%"></span></div>
+        <div class="cov-verdict"><span class="chip free">Free from Places</span>Not researched; Places returns phone directly.</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <h2 class="sec">The sample</h2>
+      <p class="sec-note">Ten churches chosen to span every denomination in the filter list and every age bucket. <code>null</code> means the data was not found, not that it doesn't exist.</p>
+    </div>
+
+    <div class="scroller" tabindex="0">
+      <table>
+        <thead>
+          <tr>
+            <th>Church</th>
+            <th>Denomination</th>
+            <th>Address</th>
+            <th>Founded</th>
+            <th>Building</th>
+            <th>Capacity</th>
+            <th>Attendance</th>
+            <th>Sermon feed</th>
+            <th>Services</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="nm">St. Michael's Cathedral Basilica</td>
+            <td>Catholic</td><td>65 Bond St</td>
+            <td class="num">1848</td><td class="num">1848</td>
+            <td><span class="null">null</span></td><td><span class="null">null</span></td>
+            <td><span class="null">null</span></td><td><span class="null">null</span></td>
+          </tr>
+          <tr>
+            <td class="nm">Cathedral Church of St. James</td>
+            <td>Anglican</td><td>106 King St E</td>
+            <td class="num">1797</td><td class="num">1853</td>
+            <td><span class="null">null</span></td><td><span class="null">null</span></td>
+            <td><span class="null">null</span></td><td><span class="null">null</span></td>
+          </tr>
+          <tr>
+            <td class="nm">Metropolitan United Church</td>
+            <td>United Church</td><td>56 Queen St E</td>
+            <td class="num">1818</td><td><span class="null">null</span></td>
+            <td class="num caveat">1000 *</td><td><span class="null">null</span></td>
+            <td><span class="null">null</span></td><td><span class="null">null</span></td>
+          </tr>
+          <tr>
+            <td class="nm">Yorkminster Park Baptist Church</td>
+            <td>Baptist</td><td>1585 Yonge St</td>
+            <td><span class="null">null</span></td><td class="num">1928</td>
+            <td><span class="null">null</span></td><td class="caveat">"largest in CA"</td>
+            <td><span class="null">null</span></td><td><span class="null">null</span></td>
+          </tr>
+          <tr>
+            <td class="nm">The Peoples Church</td>
+            <td>Evangelical</td><td><span class="null">null</span></td>
+            <td class="num">1928</td><td><span class="null">null</span></td>
+            <td><span class="null">null</span></td><td class="caveat">1,500–2,000 (1928)</td>
+            <td><span class="null">null</span></td><td><span class="null">null</span></td>
+          </tr>
+          <tr>
+            <td class="nm">Knox Presbyterian Church</td>
+            <td>Presbyterian</td><td>630 Spadina Ave</td>
+            <td class="num">1820</td><td class="num">1909</td>
+            <td class="num">1200</td><td><span class="null">null</span></td>
+            <td><span class="null">null</span></td><td><span class="null">null</span></td>
+          </tr>
+          <tr>
+            <td class="nm">Little Trinity Anglican Church</td>
+            <td>Anglican</td><td>425 King St E</td>
+            <td class="num">1843</td><td class="num">1844</td>
+            <td class="num">600</td><td><span class="null">null</span></td>
+            <td><span class="null">null</span></td><td><span class="null">null</span></td>
+          </tr>
+          <tr>
+            <td class="nm">St. George Greek Orthodox Church</td>
+            <td>Greek Orthodox</td><td>115 Bond St</td>
+            <td class="num">1909</td><td class="num caveat">1897 †</td>
+            <td><span class="null">null</span></td><td><span class="null">null</span></td>
+            <td class="yes">YouTube</td><td><span class="null">null</span></td>
+          </tr>
+          <tr>
+            <td class="nm">Grace Toronto Church</td>
+            <td>Presbyterian (PCA)</td><td>383 Jarvis St</td>
+            <td class="num caveat">1992 / 2004</td><td class="num">1878</td>
+            <td><span class="null">null</span></td><td class="caveat">25 (2006)</td>
+            <td class="yes">Spotify + YT</td><td class="yes">9:15, 11:15</td>
+          </tr>
+          <tr>
+            <td class="nm">First Evangelical Lutheran Church</td>
+            <td>Lutheran</td><td>116 Bond St</td>
+            <td class="num">1851</td><td><span class="null">null</span></td>
+            <td><span class="null">null</span></td><td><span class="null">null</span></td>
+            <td><span class="null">null</span></td><td><span class="null">null</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="sec-note" style="font-size:13px">
+      <strong>*</strong> Capacity of an 1833 predecessor building, not the current one — a good example of a number that looks structured and isn't usable.
+      <strong>†</strong> The building predates the congregation: it was built as a synagogue in 1897 and bought by the parish in 1937.
+    </p>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <h2 class="sec">What this changes in the schema</h2>
+      <p class="sec-note">Four things the sample surfaced that the current ticket schema can't represent.</p>
+    </div>
+
+    <div class="recs">
+      <div class="rec">
+        <h3>Split <code>year_founded</code> into congregation and building</h3>
+        <p>Every historic church in the sample has two dates, and they diverge wildly — St. James is a 1797 congregation in an 1853 building; Grace Toronto is a 1992 congregation in an 1878 building. "Is this a century-old parish or a five-year-old plant?" is a question about the <em>congregation</em>, so that's what the age filter must use. Storing one ambiguous year would silently mix the two and make the filter lie. And don't assume ordering: St. George's building is twelve years older than its congregation.</p>
+      </div>
+
+      <div class="rec">
+        <h3>Don't ship <code>attendance_estimate</code> as a number</h3>
+        <p>Zero of ten churches publish current attendance, and the numbers that do exist are seating capacity or decades stale. A "500–2000" bucket built on that would be fabrication with a filter UI on top. Two honest options: drop the size filter from v1, or redefine it as <em>seating capacity</em>, which heritage records genuinely carry — and label it that way in the UI. Capacity is a real, sourceable, different thing.</p>
+      </div>
+
+      <div class="rec">
+        <h3><code>denomination</code> needs a normalization table, not a text column</h3>
+        <p>The sample already breaks flat matching: Metropolitan United was founded Methodist Episcopal and became United at the 1925 church union; Grace Toronto is PCA, which is Presbyterian but not the Presbyterian Church in Canada. Users will filter on "Presbyterian" and expect both. Store the specific body, map it to a filterable family.</p>
+      </div>
+
+      <div class="rec">
+        <h3>Crawling the church's own site beats searching for it</h3>
+        <p>Service times and sermon feeds look nearly absent in this table, but that's an artifact of method — I searched rather than crawled. The one church whose homepage I actually fetched gave up both service times and two sermon feeds in a single request. Point the collector at <code>website_url</code> from Places and the last two columns fill in.</p>
+      </div>
+    </div>
+
+    <div class="open-q">
+      <p><strong>Still open:</strong> three of these ten sit within one block of Bond Street — St. Michael's, St. George, and First Lutheran — which will collide as map pins at city zoom. Worth deciding on clustering before the map work in step 1.</p>
+      <p><strong>Also unresolved:</strong> no church in the sample lands in the 2000+ age bucket. Downtown Toronto skews historic, so a curated seed of the core will leave that filter looking broken. Suburban plants would populate it — worth checking before committing to downtown-first coverage.</p>
+    </div>
+  </section>
+
+</div>
+
+</body>
+</html>

@@ -1,10 +1,19 @@
-# Church Finder API
+# ChurchFinder Canada
 
 Python/FastAPI backend for a church directory and map. Stores church locations and weekly
 service times, imports collector data, and provides search, filters, pagination, and map-bounds
 queries. The React frontend and Google Maps integration are the next milestone.
 
 No Google API key is required to run this backend. The collector supplies coordinates.
+
+## Project direction and research
+
+See the [product proposal](docs/product-plan.md) for the broader vision, planned frontend
+features, and open questions. The [data-sourcing research](docs/data-sourcing.html) and
+[Toronto research seed](data/seed-toronto-10.json) are also available. The research seed uses
+a different format and includes fields outside the current API schema; convert it to the
+`items` format described below before importing. Use `data/sample_churches.json` for the
+runnable demo.
 
 ## Start locally
 
