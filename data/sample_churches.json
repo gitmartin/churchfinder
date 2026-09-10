@@ -1,0 +1,58 @@
+{
+  "items": [
+    {
+      "source": "demo",
+      "source_id": "harbour-toronto",
+      "name": "Harbour Community Church (Demo)",
+      "denomination": "Non-denominational",
+      "description": "Fictional church for development. Not a real listing or verified address.",
+      "address_line1": "100 Example Street",
+      "city": "Toronto",
+      "region": "Ontario",
+      "postal_code": null,
+      "country_code": "CA",
+      "latitude": 43.6532,
+      "longitude": -79.3832,
+      "timezone": "America/Toronto",
+      "website_url": "https://example.org/harbour",
+      "phone": null,
+      "email": "harbour@example.org",
+      "source_url": "https://example.org/harbour",
+      "last_verified_at": null,
+      "service_times": [
+        {"day_of_week": 6, "start_time": "09:00", "language": "en", "label": "Morning worship"},
+        {"day_of_week": 6, "start_time": "11:00", "language": "en", "label": "Late morning worship"},
+        {"day_of_week": 2, "start_time": "19:00", "language": "fr", "label": "Midweek service"}
+      ]
+    },
+    {
+      "source": "demo",
+      "source_id": "cedar-mississauga",
+      "name": "Cedar Fellowship (Demo)",
+      "denomination": "Baptist",
+      "description": "Fictional church for development. Coordinates are for demonstration only.",
+      "address_line1": "200 Sample Avenue",
+      "city": "Mississauga",
+      "region": "Ontario",
+      "country_code": "CA",
+      "latitude": 43.589,
+      "longitude": -79.6441,
+      "timezone": "America/Toronto",
+      "service_times": [
+        {"day_of_week": 6, "start_time": "10:30", "language": "en", "label": "Sunday worship"}
+      ]
+    },
+    {
+      "source": "demo",
+      "source_id": "hope-unmapped",
+      "name": "Hope Gathering (Demo)",
+      "description": "Fictional church with missing coordinates and schedule, for testing incomplete data.",
+      "city": "Toronto",
+      "region": "Ontario",
+      "country_code": "CA",
+      "latitude": null,
+      "longitude": null,
+      "service_times": []
+    }
+  ]
+}
