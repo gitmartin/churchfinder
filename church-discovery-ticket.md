@@ -8,6 +8,8 @@
 
 Data collection and converting addresses into coordinates are owned by the data collection teammate. This ticket owns the storage contract, read API, and frontend integration.
 
+**Current milestone:** The Python API, database migrations, collector import, and backend tests are implemented. React and Google Maps integration remain a separate follow-up. See [the README](README.md) for setup and the data handoff contract.
+
 ## 1. Create the basic schema
 
 Treat each physical church location or campus as one church record.
@@ -125,17 +127,17 @@ Restrict the browser key to approved website origins and the Maps JavaScript API
 
 ## 4. Acceptance criteria
 
-- [ ] Sample data imports successfully; importing it again creates no duplicate churches.
-- [ ] Search and combined filters return the expected unique records.
-- [ ] Pagination and matching totals are correct.
+- [x] Sample data imports successfully; importing it again creates no duplicate churches.
+- [x] Search and combined filters return the expected unique records.
+- [x] Pagination and matching totals are correct.
 - [ ] “Search this area” returns only churches inside the selected bounds.
 - [ ] List cards and markers represent the same result page, except records missing coordinates.
 - [ ] Selecting a card or marker displays the correct church details and service times.
 - [ ] Missing coordinates and optional fields do not break the UI.
 - [ ] Empty results, invalid requests, unknown IDs, and loading failures are handled.
-- [ ] API tests cover filtering, bounds, pagination, validation, and detail lookup.
+- [x] API tests cover filtering, bounds, pagination, validation, and detail lookup.
 - [ ] An end-to-end smoke check covers search → marker selection → church details.
-- [ ] README documents startup, environment variables, data handoff format, and sample requests.
+- [x] README documents startup, environment variables, data handoff format, and sample requests.
 
 ## Out of scope
 

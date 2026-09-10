@@ -1,0 +1,19 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: churchfinder
+      POSTGRES_PASSWORD: churchfinder
+      POSTGRES_DB: churchfinder
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - churchfinder_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U churchfinder -d churchfinder"]
+      interval: 2s
+      timeout: 3s
+      retries: 15
+
+volumes:
+  churchfinder_data:
