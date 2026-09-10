@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Independent ChurchFinder host</title>
+  <style>body { font: 16px system-ui,sans-serif; padding: 24px; max-width: 1100px; margin: auto; } #church-map { border: 1px solid #ccd3dd; }</style>
+</head>
+<body>
+  <h1>A separate website</h1>
+  <p>This page embeds ChurchFinder from its own server.</p>
+  <div id="church-map"></div>
+  <p id="status" role="status">Loading…</p>
+  <script src="http://localhost:8000/churchfinder.js"></script>
+  <script>
+    const widget = ChurchFinder.mount("#church-map", {
+      endpoint: "http://localhost:8000/embed/churches",
+      initialHeight: 760,
+      city: "Toronto"
+    });
+    widget.ready.then(() => document.getElementById("status").textContent = "Map ready.")
+      .catch(error => document.getElementById("status").textContent = error.message);
+  </script>
+</body>
+</html>

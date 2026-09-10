@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Embed ChurchFinder</title>
+  <style>
+    body { font: 16px/1.5 system-ui,sans-serif; margin: 0; background: #f5f7fa; color: #172033; }
+    main { max-width: 1100px; margin: 0 auto; padding: 24px; }
+    h1 { font-size: 24px; } a { color: #1e40af; }
+    #church-map { border: 1px solid #ccd3dd; border-radius: 8px; overflow: hidden; background: white; }
+    pre { background: #172033; color: white; padding: 20px; overflow: auto; border-radius: 6px; font-size: 14px; }
+    button { font: inherit; background: white; border: 1px solid #ccd3dd; border-radius: 4px; padding: 8px 14px; cursor: pointer; }
+  </style>
+</head>
+<body>
+<main>
+  <a href="/">← Back to ChurchFinder</a>
+  <h1>Add the church map to another website</h1>
+  <p>The map runs inside an iframe, so the host page keeps its own layout and styles.</p>
+  <div id="church-map"></div>
+  <p id="status" role="status">Loading embedded map…</p>
+  <h2>Embed code</h2>
+  <p>Replace the local address with your deployed ChurchFinder address. Allow the host site's origin in <code>EMBED_ALLOWED_ORIGINS</code>.</p>
+  <pre id="code"></pre>
+  <button id="copy">Copy code</button>
+</main>
+<script src="/churchfinder.js"></script>
+<script>
+  document.getElementById("code").textContent = ChurchFinder.getEmbedCode();
+  document.getElementById("copy").onclick = async () => {
+    try { await navigator.clipboard.writeText(ChurchFinder.getEmbedCode()); document.getElementById("copy").textContent = "Copied"; }
+    catch { document.getElementById("copy").textContent = "Select and copy the code above"; }
+  };
+  const widget = ChurchFinder.mount("#church-map", { initialHeight: 760 });
+  widget.ready.then(() => document.getElementById("status").textContent = "Map ready.")
+    .catch(error => document.getElementById("status").textContent = error.message);
+</script>
+</body>
+</html>
